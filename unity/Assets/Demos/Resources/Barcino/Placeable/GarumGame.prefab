@@ -400,6 +400,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!114 &7123572969078287407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -896,6 +897,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!54 &7123572969112726984
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1311,6 +1313,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!54 &7123572969140817220
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1998,6 +2001,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!114 &7123572969161004247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2494,6 +2498,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!54 &7123572969188402592
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2828,6 +2833,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!54 &7123572969195296981
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3081,6 +3087,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!54 &7123572969202090303
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4416,6 +4423,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!114 &7123572969276093096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4617,6 +4625,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!114 &7123572969277607953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4818,6 +4827,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!114 &7123572969287370986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6691,6 +6701,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!54 &7123572969390567135
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -8634,6 +8645,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!54 &7123572969474334626
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -9049,6 +9061,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!54 &7123572969496973012
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -9510,6 +9523,7 @@ MonoBehaviour:
   - {fileID: 6124757505546043603, guid: b92faebe714b278489f8c4fdc84c022a, type: 3}
   - {fileID: 7429353219189868471, guid: bbcb1fe84d33889448e3ef96686d0c70, type: 3}
   - {fileID: 7429353219189868471, guid: bbcb1fe84d33889448e3ef96686d0c70, type: 3}
+  InteractionEnabled: 1
 --- !u!114 &7123572969536156673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10154,6 +10168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!54 &7123572969585410835
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -11894,6 +11909,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!114 &7123572969697822405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12228,6 +12244,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!54 &7123572969707475103
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -12598,6 +12615,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!114 &7123572969713130508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12837,6 +12855,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!54 &7123572969727427277
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -13038,6 +13057,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!114 &7123572969730850773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14020,6 +14040,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!54 &7123572969788685753
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -15326,6 +15347,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!54 &7123572969854263671
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -15953,6 +15975,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!54 &7123572969873208590
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -16661,6 +16684,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!54 &7123572969901704159
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -17238,6 +17262,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!54 &7123572969918624326
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -17410,6 +17435,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!54 &7123572969927408728
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -22228,6 +22254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!114 &7123572970217769046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23455,6 +23482,7 @@ MonoBehaviour:
   - {fileID: 8582484092888352349, guid: 6e544fb541ec0e34f94a22860d4c81af, type: 3}
   - {fileID: 3290832130762094292, guid: 2e0a2de4f8198014a870be8ccd66a259, type: 3}
   - {fileID: 3290832130762094292, guid: 2e0a2de4f8198014a870be8ccd66a259, type: 3}
+  InteractionEnabled: 1
 --- !u!114 &7123572970300043589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23885,6 +23913,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!114 &7123572970322904674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36615,6 +36644,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!114 &7123572970508979515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36816,6 +36846,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!114 &7123572970525077343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37393,6 +37424,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!54 &7123572970553337744
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -38618,6 +38650,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!54 &7123572970609561326
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -39843,6 +39876,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!54 &7123572970679311642
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -46343,6 +46377,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!54 &7123572970761816693
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -47001,6 +47036,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!54 &7123572970786530507
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -47983,6 +48019,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!54 &7123572970853601794
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -48528,6 +48565,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!114 &7123572970900128150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48648,6 +48686,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!114 &7123572970900818587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48901,6 +48940,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!54 &7123572970909595071
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -49631,6 +49671,7 @@ MonoBehaviour:
   - {fileID: 3226888500704429467, guid: 2fcd42883e7dcd2409d437085c06b737, type: 3}
   - {fileID: 8243315151167646771, guid: e894076c997aaa54fae3b46a54485cd5, type: 3}
   - {fileID: 8243315151167646771, guid: e894076c997aaa54fae3b46a54485cd5, type: 3}
+  InteractionEnabled: 1
 --- !u!114 &7123572970942220714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55487,6 +55528,7 @@ Transform:
   - {fileID: 7123572969713130549}
   - {fileID: 7123572970691879118}
   - {fileID: 6030937393729351064}
+  - {fileID: 341128972096558783}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -55508,6 +55550,8 @@ MonoBehaviour:
   - {fileID: 7123572969536156672}
   DroppableItems:
   - {fileID: 7123572969713130509}
+  InteractionZoneItems:
+  - {fileID: 5795882173169205705, guid: 65547da34e16d45d89c9b4fde1011cbb, type: 3}
   CurrentGrabbed: {fileID: 0}
   CarryingItemDistanceToCamera: 0.5
   speed: 3
@@ -55849,6 +55893,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!114 &7123572970992342061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56264,6 +56309,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!54 &7123572971029575921
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -56598,6 +56644,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!54 &7123572971035069916
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -57661,6 +57708,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!54 &7123572971070441080
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -58886,6 +58934,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!54 &7123572971134319125
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -60261,4 +60310,84 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6939640997315770814, guid: beb5dd73792354415852f3859e46222e,
     type: 3}
   m_PrefabInstance: {fileID: 3746079147485942822}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &6074570610630757273
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 7123572970980198741}
+    m_Modifications:
+    - target: {fileID: 11971231314144543, guid: 65547da34e16d45d89c9b4fde1011cbb,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5834091396939930918, guid: 65547da34e16d45d89c9b4fde1011cbb,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5834091396939930918, guid: 65547da34e16d45d89c9b4fde1011cbb,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5834091396939930918, guid: 65547da34e16d45d89c9b4fde1011cbb,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5834091396939930918, guid: 65547da34e16d45d89c9b4fde1011cbb,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5834091396939930918, guid: 65547da34e16d45d89c9b4fde1011cbb,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5834091396939930918, guid: 65547da34e16d45d89c9b4fde1011cbb,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5834091396939930918, guid: 65547da34e16d45d89c9b4fde1011cbb,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5834091396939930918, guid: 65547da34e16d45d89c9b4fde1011cbb,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5834091396939930918, guid: 65547da34e16d45d89c9b4fde1011cbb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5834091396939930918, guid: 65547da34e16d45d89c9b4fde1011cbb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5834091396939930918, guid: 65547da34e16d45d89c9b4fde1011cbb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7398713730048110389, guid: 65547da34e16d45d89c9b4fde1011cbb,
+        type: 3}
+      propertyPath: m_Name
+      value: InteractionZone
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 65547da34e16d45d89c9b4fde1011cbb, type: 3}
+--- !u!4 &341128972096558783 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5834091396939930918, guid: 65547da34e16d45d89c9b4fde1011cbb,
+    type: 3}
+  m_PrefabInstance: {fileID: 6074570610630757273}
   m_PrefabAsset: {fileID: 0}

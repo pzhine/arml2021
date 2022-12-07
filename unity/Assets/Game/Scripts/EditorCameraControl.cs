@@ -49,18 +49,19 @@ namespace WorldAsSupport {
             
             // // Read the user input
             // float y = Input.GetAxis("Vertical") * LookSpeed / 1000;
+            
             if (Input.GetKey(KeyCode.RightShift)){
                 lookToggle = !lookToggle;
             }
 
             if (lookToggle == true){
                 float yk = Input.GetAxis("Vertical") * LookSpeed;
-                float xk = Input.GetAxis("Horizontal") * LookSpeed;
+                //float xk = Input.GetAxis("Horizontal") * LookSpeed;
 
                 // adjust the vertical angle
                 // yRotation -= y + yk;
                 yRotation -= yk;
-                xRotation += xk;
+                //xRotation += xk;
 
                 if (yRotation < MinVerticalAngle) {
                     yRotation = MinVerticalAngle;
@@ -72,12 +73,12 @@ namespace WorldAsSupport {
                 transform.localRotation = rotation;
             }else{
                 float yk = Input.GetAxis("VerticalKey") * LookSpeed * 2;
-                float xk = Input.GetAxis("HorizontalKey") * LookSpeed * 2;
+                //float xk = Input.GetAxis("HorizontalKey") * LookSpeed * 2;
 
                 // adjust the vertical angle
                 // yRotation -= y + yk;
                 yRotation -= yk;
-                xRotation += xk;
+                //xRotation += xk;
 
                 if (yRotation < MinVerticalAngle)
                 {

@@ -7,7 +7,7 @@ namespace WorldAsSupport {
     //some functions are from the old scripts: TowelBehaviour and ClothesManager
 
     public enum InteractionType {
-        Grabbable, Droppable, None
+        Grabbable, Droppable, InteractionZone, None
     }
 
     public class InteractableGame : MonoBehaviour
@@ -19,10 +19,14 @@ namespace WorldAsSupport {
         //Items where objects can be dropped
         public InteractableItem[] DroppableItems;
 
+        public InteractableItem[] InteractionZoneItems;
+
         //List of objects that have not been dropped yet
         protected List<InteractableItem> grabbableList;
         //List of objects where objects can still be dropped
         protected List<InteractableItem> droppableList; 
+        //List of interactions zones
+        protected List<InteractableItem> interactionZoneList; 
 
         public InteractableItem CurrentGrabbed;
 
@@ -42,6 +46,7 @@ namespace WorldAsSupport {
         //functions to inherit
         protected virtual void Grabbed(InteractableItem item) { }
         protected virtual void Dropped(InteractableItem item) { }
+        protected virtual void InteractionZoneComplete(InteractableItem item) { }
         protected virtual void ChildStart() { }
         protected virtual void ChildUpdate() { }
         protected virtual void ChildAwake() { }
@@ -59,7 +64,10 @@ namespace WorldAsSupport {
                 return InteractionType.Grabbable;
             }else if (CurrentGrabbed && droppableList.IndexOf(item) >= 0){
                 return InteractionType.Droppable;
+            }else if (interactionZoneList.IndexOf(item) >= 0){
+                return InteractionType.InteractionZone;
             }
+
             Debug.Log("CanInteract: not grabbable or droppable");
             return InteractionType.None;
         }
@@ -83,6 +91,9 @@ namespace WorldAsSupport {
                 Debug.Log("Release game: " + name);
                 grabbableList.Remove(CurrentGrabbed);
                 RaycastProvider.CurrentGame = null;
+            }else if (canInteract == InteractionType.InteractionZone) {
+                InteractionZoneComplete(item);
+                Debug.Log("Interaction zone complete: " + name);
             }
         }
 
@@ -109,6 +120,7 @@ namespace WorldAsSupport {
 
             grabbableList = new List<InteractableItem>(GrabbableItems);
             droppableList = new List<InteractableItem>(DroppableItems);
+            interactionZoneList = new List<InteractableItem>(InteractionZoneItems);
 
             LoadingBar.current.LoadingComplete += Interact;
 

@@ -13,13 +13,19 @@ namespace WorldAsSupport {
         private PlaceableItem PlaceableItem;
         private InteractableGame InteractableGame;
         //new version
+
+        public bool InteractionEnabled = true;
+
         public InteractionType CanInteract
         {
             get
             {
-                return InteractableGame.CanItemInteract(this);
+                return InteractionEnabled 
+                    ? InteractableGame.CanItemInteract(this) 
+                    : InteractionType.None;
             }
         }
+    
 
         private bool m_IsInteracting = false;
         [HideInInspector] public bool IsInteracting {
