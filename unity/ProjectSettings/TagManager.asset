@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Staging
+  - LoadingBar
+  - ClothesHanger
+  - Cloth
+  - StagingPlaceables
+  - Hints Wall
+  - Text_EN
+  - Text_ES
+  - Text_CAT
+  - Recipient
+  - HintFish
+  - HintSalt
+  - HintHerbs
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - Features
+  - Placeables
+  - Anchors
+  - WaypointPlane
+  - Guide
+  - PortalInterior
+  - Avatar
+  - PlaceableOcclusion
+  - Device
+  - PlayerPath
+  - Captions
+  - Interacting
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
