@@ -176,13 +176,6 @@ namespace WorldAsSupport {
             }
         }
 
-        ////////////////////////////
-        /// VICTOR TESTS         ///
-        ////////////////////////////
-        
-        bool twisting(){
-            return true;
-        }
     }
 }
 

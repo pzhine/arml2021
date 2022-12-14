@@ -125,6 +125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   States: []
+  InteractionEnabled: 1
 --- !u!114 &710147609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,3 +142,4 @@ MonoBehaviour:
   isSelected: 0
   IsWaypoint: 0
   WasSeen: 0
+  IsInstance: 0

@@ -15,6 +15,15 @@ namespace WorldAsSupport {
             startFirst();
         }
 
+        protected override void InteractionZoneComplete(InteractableItem item)
+        {
+            //check if we still inside zone
+                //while true --> timer 10 secs
+                //if 10 secs passed
+                audioSource.PlayOneShot(Resources.Load<AudioClip>("Barcino/Sounds/correct_sound"));
+                //go next stage
+        }
+
         protected override void Grabbed(InteractableItem cloth) 
         {
             firstToSecond();
