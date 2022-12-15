@@ -195,6 +195,7 @@ MonoBehaviour:
   - {fileID: 3423826870439678742}
   InteractionZoneItems:
   - {fileID: 8964604375901481893}
+  - {fileID: 8078897202505020306}
   CurrentGrabbed: {fileID: 0}
   CarryingItemDistanceToCamera: 1.5
   speed: 3
@@ -324,7 +325,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6794899971635275120}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.58514, y: 0, z: 0.29257}
+  m_LocalPosition: {x: 0.58514, y: -0.021, z: 0.29257}
   m_LocalScale: {x: 0.0438855, y: 0.58514, z: 0.058514003}
   m_Children: []
   m_Father: {fileID: 5248354618519188262}

@@ -52,6 +52,10 @@ namespace WorldAsSupport {
         protected virtual void ChildAwake() { }
         protected virtual void secondToThird() { }
 
+        protected virtual List<InteractionType> AvailableInteractionTypes(){
+            return new List<InteractionType>();
+        }
+
 
         public InteractionType CanItemInteract(InteractableItem item){
             Debug.Log("CanInteract: " + item);
@@ -60,11 +64,11 @@ namespace WorldAsSupport {
                 Debug.Log("CanInteract: wrong game");
                 return InteractionType.None;
             }
-            if (!CurrentGrabbed && grabbableList.IndexOf(item) >= 0){
+            if ((AvailableInteractionTypes().IndexOf(InteractionType.Grabbable) >= 0) && grabbableList.IndexOf(item) >= 0){
                 return InteractionType.Grabbable;
-            }else if (CurrentGrabbed && droppableList.IndexOf(item) >= 0){
+            }else if ((AvailableInteractionTypes().IndexOf(InteractionType.Droppable) >= 0) && droppableList.IndexOf(item) >= 0){
                 return InteractionType.Droppable;
-            }else if (interactionZoneList.IndexOf(item) >= 0){
+            }else if ((AvailableInteractionTypes().IndexOf(InteractionType.InteractionZone) >= 0) && interactionZoneList.IndexOf(item) >= 0){
                 return InteractionType.InteractionZone;
             }
 

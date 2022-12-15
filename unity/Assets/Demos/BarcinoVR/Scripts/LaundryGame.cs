@@ -6,8 +6,18 @@ namespace WorldAsSupport {
     public class LaundryGame : InteractableGame
     {
         //most of the functions are from the old scripts: TowelBehaviour and ClothesManager
+        enum LaundryGameStages
+            {
+                INITIAL = 0,
+                GRAB = 1,
+                MIXING = 2,
+                HANGING = 3,     
+            }
 
+        LaundryGameStages currentStage;
         private GameObject hanger_to_drop;
+
+        protected float startInteractionZoneTime;
 
         protected override void ChildStart()
         {
@@ -20,6 +30,9 @@ namespace WorldAsSupport {
             //check if we still inside zone
                 //while true --> timer 10 secs
                 //if 10 secs passed
+                startInteractionZoneTime = Time.time;
+                Debug.Log(startInteractionZoneTime - Time.time);
+                //if((startInteractionZoneTime - Time.time) >=)
                 audioSource.PlayOneShot(Resources.Load<AudioClip>("Barcino/Sounds/correct_sound"));
                 //go next stage
         }
@@ -76,6 +89,19 @@ namespace WorldAsSupport {
             droppableList.Remove(hanger);
             Debug.Log("Dropped " + hanger.name);
 
+        }
+
+        protected override List<InteractionType> AvailableInteractionTypes(){
+            switch(currentStage){
+                case LaundryGameStages.INITIAL:
+                    return new List<InteractionType>(){InteractionType.Grabbable};
+                case LaundryGameStages.GRAB:
+                    return new List<InteractionType>(){InteractionType.InteractionZone};
+                case LaundryGameStages.MIXING:
+                    return new List<InteractionType>(){InteractionType.Droppable};
+                case LaundryGameStages.HANGING:
+                    return new List<InteractionType>(){InteractionType.None};
+            }
         }
 
         void changeActivation(InteractableItem cloth, bool a, bool b, bool c)
