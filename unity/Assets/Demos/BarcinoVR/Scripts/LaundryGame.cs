@@ -8,14 +8,16 @@ namespace WorldAsSupport {
         //most of the functions are from the old scripts: TowelBehaviour and ClothesManager
         enum LaundryGameStages
             {
-                INITIAL = 0,
-                GRAB = 1,
-                MIXING = 2,
+                GRAB_STICK = 0,
+                MIXING = 1,
+                GRAB_CLOTH = 2,
                 HANGING = 3,     
             }
 
         LaundryGameStages currentStage;
         private GameObject hanger_to_drop;
+        public InteractableItem stick;
+        public List<InteractableItem> clothList;
 
         protected float startInteractionZoneTime;
 
@@ -27,20 +29,81 @@ namespace WorldAsSupport {
 
         protected override void InteractionZoneComplete(InteractableItem item)
         {
-            //check if we still inside zone
-                //while true --> timer 10 secs
-                //if 10 secs passed
-                startInteractionZoneTime = Time.time;
-                Debug.Log(startInteractionZoneTime - Time.time);
-                //if((startInteractionZoneTime - Time.time) >=)
-                audioSource.PlayOneShot(Resources.Load<AudioClip>("Barcino/Sounds/correct_sound"));
-                //go next stage
+            audioSource.PlayOneShot(Resources.Load<AudioClip>("Barcino/Sounds/correct_sound"));
+            secondToThird();
         }
 
         protected override void Grabbed(InteractableItem cloth) 
         {
-            firstToSecond();
+            cloth.IsInteracting = true;
+            if (currentStage == LaundryGameStages.GRAB_CLOTH){
+                thirdToFourth(cloth);
+            }else{
+                firstToSecond();
+            }
+        }
 
+        protected override void Dropped(InteractableItem hanger) 
+        {
+            fourthToEnd(hanger);
+        }
+
+        protected override List<InteractionType> AvailableInteractionTypes(){
+            switch(currentStage){
+                case LaundryGameStages.GRAB_STICK:
+                    return new List<InteractionType>(){InteractionType.Grabbable};
+                case LaundryGameStages.MIXING:
+                    return new List<InteractionType>(){InteractionType.InteractionZone};
+                case LaundryGameStages.GRAB_CLOTH:
+                    return new List<InteractionType>(){InteractionType.Droppable};
+                case LaundryGameStages.HANGING:
+                    return new List<InteractionType>(){InteractionType.None};
+                default:
+                    return new List<InteractionType>(){};
+            }
+        }
+
+        void changeActivation(InteractableItem cloth, bool a, bool b, bool c)
+        {
+            cloth.States[0].SetActive(a);
+            cloth.States[1].SetActive(b);
+            cloth.States[2].SetActive(c);
+        }
+
+        private void startFirst()
+        {
+            foreach (InteractableItem cloth in clothList)
+            {
+                //load the towel from the prefabs and set its position to the parent's position
+                var a = Instantiate(cloth.States[0], new Vector3(0, 0, 0), Quaternion.identity);
+                a.transform.parent = cloth.transform;
+                a.transform.position = cloth.transform.position;
+
+                cloth.States[0] = a;
+
+                changeActivation(cloth, true, false, false); //just activate the first towel
+            }
+            currentStage = LaundryGameStages.GRAB_STICK;
+            grabbableList = new List<InteractableItem>(){stick};
+        }
+        public void firstToSecond() 
+        {
+            currentStage = LaundryGameStages.MIXING;
+        }
+        
+        protected void secondToThird()
+        {
+            currentStage = LaundryGameStages.GRAB_CLOTH;
+            grabbableList = new List<InteractableItem>(clothList);
+            CurrentGrabbed.gameObject.SetActive(false);
+            CurrentGrabbed = null;
+
+        }
+
+        protected void thirdToFourth(InteractableItem cloth)
+        {
+
+            
             cloth.IsInteracting = true;
 
             Camera cam = ARGameSession.current.ProjectorViewCamera;
@@ -69,9 +132,23 @@ namespace WorldAsSupport {
             startPosition = CurrentGrabbed.transform.position;
 
             Debug.Log("Grabbed " + cloth.name);
+
+
+
+
+            var a = Instantiate(CurrentGrabbed.States[1], CurrentGrabbed.transform.position, Quaternion.identity);
+            a.transform.parent = CurrentGrabbed.transform;
+
+            CurrentGrabbed.States[1] = a;
+            CurrentGrabbed.States[1].transform.position = CurrentGrabbed.States[0].transform.position;
+            CurrentGrabbed.GetComponentInParent<BoxCollider>().enabled = false;
+            changeActivation(CurrentGrabbed, false, true, false);
         }
-        protected override void Dropped(InteractableItem hanger) 
+
+        protected void fourthToEnd(InteractableItem hanger)
         {
+            
+
             CurrentGrabbed.GetComponent<BoxCollider>().enabled = false;
             CurrentGrabbed.IsInteracting = false;
             hanger.GetComponent<BoxCollider>().enabled = false;
@@ -89,57 +166,9 @@ namespace WorldAsSupport {
             droppableList.Remove(hanger);
             Debug.Log("Dropped " + hanger.name);
 
-        }
 
-        protected override List<InteractionType> AvailableInteractionTypes(){
-            switch(currentStage){
-                case LaundryGameStages.INITIAL:
-                    return new List<InteractionType>(){InteractionType.Grabbable};
-                case LaundryGameStages.GRAB:
-                    return new List<InteractionType>(){InteractionType.InteractionZone};
-                case LaundryGameStages.MIXING:
-                    return new List<InteractionType>(){InteractionType.Droppable};
-                case LaundryGameStages.HANGING:
-                    return new List<InteractionType>(){InteractionType.None};
-                default:
-                    return new List<InteractionType>(){};
-            }
-        }
 
-        void changeActivation(InteractableItem cloth, bool a, bool b, bool c)
-        {
-            cloth.States[0].SetActive(a);
-            cloth.States[1].SetActive(b);
-            cloth.States[2].SetActive(c);
-        }
 
-        private void startFirst()
-        {
-            foreach (InteractableItem cloth in GrabbableItems)
-            {
-                //load the towel from the prefabs and set its position to the parent's position
-                var a = Instantiate(cloth.States[0], new Vector3(0, 0, 0), Quaternion.identity);
-                a.transform.parent = cloth.transform;
-                a.transform.position = cloth.transform.position;
-
-                cloth.States[0] = a;
-
-                changeActivation(cloth, true, false, false); //just activate the first towel
-            }
-        }
-        public void firstToSecond()
-        {
-            var a = Instantiate(CurrentGrabbed.States[1], CurrentGrabbed.transform.position, Quaternion.identity);
-            a.transform.parent = CurrentGrabbed.transform;
-
-            CurrentGrabbed.States[1] = a;
-            CurrentGrabbed.States[1].transform.position = CurrentGrabbed.States[0].transform.position;
-            CurrentGrabbed.GetComponentInParent<BoxCollider>().enabled = false;
-            changeActivation(CurrentGrabbed, false, true, false);
-        }
-
-        protected override void secondToThird()
-        {
             var a = Instantiate(CurrentGrabbed.States[2], new Vector3(0, 0, 0), CurrentGrabbed.transform.rotation, CurrentGrabbed.transform);
             Debug.Log("a rotation: " + a.transform.rotation.eulerAngles);
             // a.transform.parent = CurrentGrabbed.transform;
@@ -226,6 +255,7 @@ namespace WorldAsSupport {
             Debug.Log("Cloth rotation: " + CurrentGrabbed.transform.rotation.eulerAngles);
             hanger_to_drop = null;
             */
+            
         }
 
     } 
