@@ -101,6 +101,8 @@ namespace WorldAsSupport {
                     return new List<InteractionType>(){InteractionType.Droppable};
                 case LaundryGameStages.HANGING:
                     return new List<InteractionType>(){InteractionType.None};
+                default:
+                    return new List<InteractionType>(){};
             }
         }
 
