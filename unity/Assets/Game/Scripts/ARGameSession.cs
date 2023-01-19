@@ -28,6 +28,9 @@ namespace WorldAsSupport {
         public static ARGameSession current;
 
         // ARFoundation instance references
+        
+        public Animator chrono;
+        
         private ARRaycastManager m_RaycastManager;
         public ARRaycastManager RaycastManager {
             get {

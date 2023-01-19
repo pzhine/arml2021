@@ -938,6 +938,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -1485,7 +1486,7 @@ LightingSettings:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Settings.lighting
-  serializedVersion: 2
+  serializedVersion: 3
   m_GIWorkflowMode: 0
   m_EnableBakedLightmaps: 0
   m_EnableRealtimeLightmaps: 0
@@ -1507,7 +1508,7 @@ LightingSettings:
   m_MixedBakeMode: 2
   m_LightmapsBakeMode: 1
   m_FilterMode: 1
-  m_LightmapParameters: {fileID: 0}
+  m_LightmapParameters: {fileID: 15204, guid: 0000000000000000f000000000000000, type: 0}
   m_ExportTrainingData: 0
   m_TrainingDataDestination: TrainingData
   m_RealtimeResolution: 2
@@ -1524,7 +1525,7 @@ LightingSettings:
   m_PVREnvironmentReferencePointCount: 2048
   m_LightProbeSampleCountMultiplier: 4
   m_PVRBounces: 2
-  m_PVRRussianRouletteStartBounce: 2
+  m_PVRMinBounces: 1
   m_PVREnvironmentMIS: 0
   m_PVRFilteringMode: 2
   m_PVRDenoiserTypeDirect: 0
@@ -2471,6 +2472,7 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!224 &275084749 stripped
@@ -4124,7 +4126,7 @@ PrefabInstance:
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
@@ -4134,12 +4136,12 @@ PrefabInstance:
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 662
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
@@ -4184,12 +4186,12 @@ PrefabInstance:
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 331
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
@@ -4214,7 +4216,7 @@ PrefabInstance:
     - target: {fileID: 4251620855726652458, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 374.9998
+      value: 374.99976
       objectReference: {fileID: 0}
     - target: {fileID: 7440062624485741014, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
@@ -6294,7 +6296,7 @@ PrefabInstance:
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
@@ -6304,12 +6306,12 @@ PrefabInstance:
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 662
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
@@ -6354,12 +6356,12 @@ PrefabInstance:
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 331
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -252
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
@@ -6384,7 +6386,7 @@ PrefabInstance:
     - target: {fileID: 4251620855726652458, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 374.9998
+      value: 374.99976
       objectReference: {fileID: 0}
     - target: {fileID: 7440062624485741014, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
@@ -7084,7 +7086,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: cc2a530b8e2fb4cbc9144fddac6f620f, type: 3}
 --- !u!95 &719384478
 Animator:
-  serializedVersion: 3
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -7097,10 +7099,11 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!136 &719384479
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -7707,6 +7710,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!223 &768394905
 Canvas:
   m_ObjectHideFlags: 0
@@ -8309,6 +8313,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!223 &863327574
 Canvas:
   m_ObjectHideFlags: 0
@@ -8604,6 +8609,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!223 &903857008
 Canvas:
   m_ObjectHideFlags: 0
@@ -8941,6 +8947,7 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!1 &916734974
@@ -9410,6 +9417,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!223 &948874507
 Canvas:
   m_ObjectHideFlags: 0
@@ -9948,6 +9956,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -10437,6 +10446,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!223 &1086911308
 Canvas:
   m_ObjectHideFlags: 0
@@ -11211,7 +11221,7 @@ PrefabInstance:
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
@@ -11221,12 +11231,12 @@ PrefabInstance:
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 662
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
@@ -11271,12 +11281,12 @@ PrefabInstance:
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 331
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
@@ -11296,7 +11306,7 @@ PrefabInstance:
     - target: {fileID: 4251620855726652458, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 374.9998
+      value: 374.99976
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ef53eff5f0b047e48b26945ee4d1b98, type: 3}
@@ -11981,6 +11991,7 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!1 &1214168900
@@ -12315,6 +12326,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -12962,6 +12974,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5543dcae3bdd84f51a6848884c8ac761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chrono: {fileID: 6763644782514244122}
   EditorPlatform: 0
   TargetCanvas: {fileID: 0}
   ModalsCanvas: {fileID: 0}
@@ -13570,7 +13583,7 @@ MonoBehaviour:
   m_FootstepSounds: []
 --- !u!95 &1408669702
 Animator:
-  serializedVersion: 3
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -13583,10 +13596,11 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!4 &1408669703
 Transform:
   m_ObjectHideFlags: 0
@@ -15031,7 +15045,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: cc2a530b8e2fb4cbc9144fddac6f620f, type: 3}
 --- !u!95 &1616319509
 Animator:
-  serializedVersion: 3
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -15044,10 +15058,11 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!136 &1616319510
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -15322,6 +15337,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -16103,7 +16119,7 @@ PrefabInstance:
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
@@ -16113,12 +16129,12 @@ PrefabInstance:
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 662
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
@@ -16163,12 +16179,12 @@ PrefabInstance:
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 331
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -151
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
@@ -16193,7 +16209,7 @@ PrefabInstance:
     - target: {fileID: 4251620855726652458, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 374.9998
+      value: 374.99976
       objectReference: {fileID: 0}
     - target: {fileID: 6485364954838495387, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
@@ -16546,6 +16562,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!223 &1822786664
 Canvas:
   m_ObjectHideFlags: 0
@@ -17178,7 +17195,7 @@ PrefabInstance:
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
@@ -17188,12 +17205,12 @@ PrefabInstance:
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 662
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
@@ -17238,12 +17255,12 @@ PrefabInstance:
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 331
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -353
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
@@ -17268,7 +17285,7 @@ PrefabInstance:
     - target: {fileID: 4251620855726652458, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 374.9998
+      value: 374.99976
       objectReference: {fileID: 0}
     - target: {fileID: 7440062624485741014, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
@@ -17497,6 +17514,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!223 &1906434107
 Canvas:
   m_ObjectHideFlags: 0
@@ -17706,7 +17724,7 @@ PrefabInstance:
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
@@ -17716,12 +17734,12 @@ PrefabInstance:
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 662
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
@@ -17766,12 +17784,12 @@ PrefabInstance:
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 331
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2856517931187438287, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
@@ -17791,7 +17809,7 @@ PrefabInstance:
     - target: {fileID: 4251620855726652458, guid: 2ef53eff5f0b047e48b26945ee4d1b98,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 374.9998
+      value: 374.99976
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ef53eff5f0b047e48b26945ee4d1b98, type: 3}
@@ -18530,6 +18548,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!223 &2060832654
 Canvas:
   m_ObjectHideFlags: 0
@@ -18930,6 +18949,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!223 &2130626206
 Canvas:
   m_ObjectHideFlags: 0
@@ -19105,6 +19125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -19186,6 +19207,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -19331,6 +19353,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -19797,6 +19820,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -19969,6 +19993,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -20199,6 +20224,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -20577,6 +20603,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -21180,6 +21207,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -21243,7 +21271,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
 --- !u!95 &6763644782514244122
 Animator:
-  serializedVersion: 3
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -21256,10 +21284,11 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!114 &6763644782514244123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21475,6 +21504,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!223 &6763644783294334909
 Canvas:
   m_ObjectHideFlags: 0
