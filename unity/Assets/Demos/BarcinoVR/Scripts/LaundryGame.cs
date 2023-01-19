@@ -55,9 +55,9 @@ namespace WorldAsSupport {
                 case LaundryGameStages.MIXING:
                     return new List<InteractionType>(){InteractionType.InteractionZone};
                 case LaundryGameStages.GRAB_CLOTH:
-                    return new List<InteractionType>(){InteractionType.Droppable};
+                    return new List<InteractionType>(){InteractionType.Grabbable};
                 case LaundryGameStages.HANGING:
-                    return new List<InteractionType>(){InteractionType.None};
+                    return new List<InteractionType>(){InteractionType.Droppable};
                 default:
                     return new List<InteractionType>(){};
             }
@@ -88,11 +88,13 @@ namespace WorldAsSupport {
         }
         public void firstToSecond() 
         {
+            Debug.Log("[firstToSecond]: We are in firstToSecond");
             currentStage = LaundryGameStages.MIXING;
         }
         
         protected void secondToThird()
         {
+            Debug.Log("[secondToThird]: We are in secondToThird");
             currentStage = LaundryGameStages.GRAB_CLOTH;
             grabbableList = new List<InteractableItem>(clothList);
             CurrentGrabbed.gameObject.SetActive(false);
@@ -102,8 +104,8 @@ namespace WorldAsSupport {
 
         protected void thirdToFourth(InteractableItem cloth)
         {
-
-            
+            currentStage = LaundryGameStages.HANGING;
+            Debug.Log("[thirdToFourth]: We are in thirdToFourth");
             cloth.IsInteracting = true;
 
             Camera cam = ARGameSession.current.ProjectorViewCamera;
@@ -147,7 +149,8 @@ namespace WorldAsSupport {
 
         protected void fourthToEnd(InteractableItem hanger)
         {
-            
+            Debug.Log("[fourthToEnd]: We are in fourthToEnd");
+
 
             CurrentGrabbed.GetComponent<BoxCollider>().enabled = false;
             CurrentGrabbed.IsInteracting = false;

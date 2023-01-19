@@ -171,7 +171,7 @@ namespace WorldAsSupport {
             changeActivation(CurrentGrabbed, false, true, false);
         }
 
-        protected override void secondToThird(){
+        protected void secondToThird(){
             var a = Instantiate(CurrentGrabbed.States[2], new Vector3(0, 0, 0), Quaternion.identity);
             a.transform.parent = CurrentGrabbed.transform;
 
