@@ -3,13 +3,19 @@ using UnityEngine.XR.ARFoundation;
 #endif
 
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace WorldAsSupport {
     public class DisplayProvider : MonoBehaviour {
+         // singleton instance
+        public static DisplayProvider current;
+
         private Camera m_mainCamera;
         private Camera m_secondaryCamera;
         private Display m_mainDisplay;
         private Display m_secondaryDisplay;
+
+        public Material PlaceableOcclusionMaterial;
     
     #if UNITY_IOS && !UNITY_EDITOR
         private ARCameraManager m_cameraManager;
@@ -25,11 +31,25 @@ namespace WorldAsSupport {
             }
         }
 
+        private bool m_virtualProjectorActive = false;
+        public bool VirtualProjectorActive {
+            get {
+                return m_virtualProjectorActive;
+            }
+        }
+
         private bool m_secondaryDisplayReady = false;
         public bool SecondaryDisplayReady {
             get {
                 return m_secondaryDisplayReady;
             }
+        }
+
+        public DisplayProvider() {
+            if (current != null) {
+                return;
+            }
+            current = this;
         }
 
         void Awake() {
@@ -106,6 +126,9 @@ namespace WorldAsSupport {
         }
 
         public void SetSecondaryDisplayActive(bool active) {
+            if (!SecondaryDisplayReady) {
+                return;
+            }
             if (!active) {
                 m_secondaryCamera.backgroundColor = Color.black;
                 m_secondaryCamera.cullingMask = 0;
@@ -116,7 +139,44 @@ namespace WorldAsSupport {
                 m_secondaryCamera.cullingMask = m_secondaryCullingMask;
                 ARGameSession.current.TargetCanvas.GetComponent<Canvas>().worldCamera = ARGameSession.current.ProjectorCamera;
             }
+            SetCullingMasksForPrimaryDisplay(active);
+            if (ARGameSession.current.WorldDoc != null) {
+                SetPlaceableOcclusionMaterial(active);
+            }
             m_secondaryDisplayActive = active;
+        }
+
+        public void SetCullingMasksForPrimaryDisplay(bool projectorIsActive) {
+            Camera camera = ARGameSession.current.ARCamera;
+            if (!projectorIsActive) {
+                camera.cullingMask |= 1 << LayerMask.NameToLayer("Placeables");
+                camera.cullingMask |= 1 << LayerMask.NameToLayer("Interacting");
+                camera.cullingMask |= 1 << LayerMask.NameToLayer("Guide");
+                camera.cullingMask |= 1 << LayerMask.NameToLayer("PlaceableOcclusion");
+                camera.cullingMask |= 1 << LayerMask.NameToLayer("TransparentFX");
+             } else {
+                camera.cullingMask &=  ~(1 << LayerMask.NameToLayer("Placeables"));
+                camera.cullingMask &=  ~(1 << LayerMask.NameToLayer("Interacting"));
+                camera.cullingMask &=  ~(1 << LayerMask.NameToLayer("Guide"));
+                camera.cullingMask &=  ~(1 << LayerMask.NameToLayer("PlaceableOcclusion"));
+                camera.cullingMask &=  ~(1 << LayerMask.NameToLayer("TransparentFX"));
+             }
+        }
+
+        private Dictionary<int, Material> m_occlusionLayerDictionary = new Dictionary<int, Material>();
+        public void SetPlaceableOcclusionMaterial(bool projectorIsActive) {
+            GameObject[] gameObjects = Utilities.FindGameObjectsInLayer("PlaceableOcclusion");
+            foreach (GameObject go in gameObjects) {
+                Renderer renderer = go.GetComponent<Renderer>();
+                if (renderer) {
+                    if (projectorIsActive) {
+                        m_occlusionLayerDictionary[go.GetInstanceID()] = renderer.material;
+                        renderer.material = PlaceableOcclusionMaterial;
+                    } else if (m_occlusionLayerDictionary.ContainsKey(go.GetInstanceID())) {
+                        renderer.material = m_occlusionLayerDictionary[go.GetInstanceID()];
+                    }
+                }
+            }
         }
 
         public void SetVirtualProjectorActive(bool active) {
@@ -126,9 +186,6 @@ namespace WorldAsSupport {
             RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
             
             if (!active) {
-                camera.cullingMask |= 1 << LayerMask.NameToLayer("Placeables");
-                camera.cullingMask |= 1 << LayerMask.NameToLayer("Interacting");
-                camera.cullingMask |= 1 << LayerMask.NameToLayer("Guide");
                 RenderSettings.ambientLight = Color.gray;
 
                 camera.fieldOfView = 60;
@@ -139,9 +196,6 @@ namespace WorldAsSupport {
                 ARGameSession.current.TargetCanvas.GetComponent<Canvas>().worldCamera = ARGameSession.current.ARCamera;
             
             } else {
-                camera.cullingMask &=  ~(1 << LayerMask.NameToLayer("Placeables"));
-                camera.cullingMask &=  ~(1 << LayerMask.NameToLayer("Interacting"));
-                camera.cullingMask &=  ~(1 << LayerMask.NameToLayer("Guide"));
                 RenderSettings.ambientLight = Color.black;
 
                 camera.fieldOfView = 80;
@@ -153,8 +207,13 @@ namespace WorldAsSupport {
                 ARGameSession.current.TargetCanvas.GetComponent<Canvas>().worldCamera = ARGameSession.current.ProjectorCamera;
             }
 
+            SetCullingMasksForPrimaryDisplay(active);
+            if (ARGameSession.current.WorldDoc != null) {
+                SetPlaceableOcclusionMaterial(active);
+            }
+
             // ARGameSession.current.Flashlight.gameObject.SetActive(active);
-            ARGameSession.current.ProjectorViewCamera.gameObject.SetActive(active);
+            // ARGameSession.current.ProjectorViewCamera.gameObject.SetActive(active);
             ARGameSession.current.VirtualProjector.gameObject.SetActive(active);
             ARGameSession.current.StagingFlashlight.gameObject.SetActive(active);
         }

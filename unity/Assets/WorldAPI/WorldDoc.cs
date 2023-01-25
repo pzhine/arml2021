@@ -18,6 +18,10 @@ namespace WorldAsSupport.WorldAPI {
             get {
                 if (m_Anchors == null) {
                     m_Anchors = new Dictionary<string, Anchor>();
+                    // deserialize the anchors
+                    if (CurrentVersion != null) {
+                        DeserializeAnchors(CurrentVersion.Data.anchors);
+                    }
                 }
                 return m_Anchors;
             }
@@ -50,15 +54,68 @@ namespace WorldAsSupport.WorldAPI {
         }
 
         public WorldDocData Data;
+
+        private byte[] m_WorldMapBytes;
+        public byte[] WorldMapBytes {
+            get {
+                if (m_WorldMapBytes == null) {
+                    m_WorldMapBytes = ReadMapFile();
+                }
+                return m_WorldMapBytes;
+            }
+        }
     
     #if UNITY_IOS && !UNITY_EDITOR
-        public ARWorldMap WorldMap;
+        private NativeArray<byte> m_NativeMapBytes;
+
+        private ARWorldMap m_WorldMap;
+        public ARWorldMap WorldMap {
+            get {
+                if (!m_WorldMap.valid && WorldMapBytes != null) {
+                    // read, deserialize and load WorldMap 
+                    Debug.Log("[WorldDoc] Deserialize WorldMap");
+                    m_NativeMapBytes = new NativeArray<byte>(
+                        WorldMapBytes.Length, 
+                        Allocator.Temp
+                    );
+                    
+                    m_NativeMapBytes.CopyFrom(WorldMapBytes);
+                    if (!ARWorldMap.TryDeserialize(m_NativeMapBytes, out m_WorldMap)) {
+                        throw new Exception("ARWorldMap.TryDeserialize failed");
+                    }
+                }
+                return m_WorldMap;
+            }
+        }
     #endif
-        public FakeARWorldMapData FakeWorldMap; // for editor
+
+        private FakeARWorldMapData m_FakeWorldMap; // for editor
+        public FakeARWorldMapData FakeWorldMap {
+            get {
+                if (m_FakeWorldMap == null && File.Exists(MapDataPath)) {
+                    // read, deserialize and load FakeWorldMap
+                    using (StreamReader mapReader = new StreamReader(MapDataPath)) {
+                        string mapJson = mapReader.ReadToEnd();
+                        m_FakeWorldMap = JsonUtility.FromJson<FakeARWorldMapData>(mapJson);
+                    }
+                }
+                return m_FakeWorldMap;
+            }
+        }
 
         private WorldVersion m_CurrentVersion;
         public WorldVersion CurrentVersion {
             get {
+                Debug.Log("[WorldDoc.CurrentVersion.get] VersionDataPath: " + VersionDataPath);
+                if (m_CurrentVersion == null && File.Exists(VersionDataPath)) {
+                    // read VersionJson
+                    using (StreamReader versionReader = new StreamReader(VersionDataPath)) {
+                        string versionJson = versionReader.ReadToEnd();
+                        CurrentVersion = new WorldVersion(
+                            JsonUtility.FromJson<WorldVersionData>(versionJson)
+                        );
+                    }
+                }
                 return m_CurrentVersion;
             }
             set {
@@ -82,7 +139,7 @@ namespace WorldAsSupport.WorldAPI {
             }
         }
 
-        private string VersionDataPath {
+        private string  VersionDataPath {
             get {
                 return Path.Combine(VersionDir, "WorldVersion.json");
             }
@@ -106,7 +163,22 @@ namespace WorldAsSupport.WorldAPI {
             Data._id = id;
 
             // load the Data for the given id
-            LoadData();
+            if (!LoadData()) {
+                Data = null;
+            }
+        }
+
+        public WorldDoc(
+            WorldDocData data,
+            WorldVersionData versionData,
+            byte[] worldMapBytes,
+            FakeARWorldMapData fakeARWorldMapData
+        ) {
+            Data = data;
+            WorldVersion version = new WorldVersion(versionData);
+            m_CurrentVersion = version;
+            m_WorldMapBytes = worldMapBytes;
+            m_FakeWorldMap = fakeARWorldMapData;
         }
 
     #if UNITY_IOS && !UNITY_EDITOR
@@ -129,7 +201,11 @@ namespace WorldAsSupport.WorldAPI {
         }
     #endif
 
-        public NativeArray<byte> ReadMapFile() {
+        public byte[] ReadMapFile() {
+            if (!File.Exists(MapDataPath)) {
+                Debug.Log("[ReadMapFile] Map file not found");
+                return null;
+            }
             List<byte> allBytes = new List<byte>();
             using (FileStream file = File.Open(MapDataPath, FileMode.Open)) {
                 int bytesPerFrame = 1024 * 10;
@@ -141,13 +217,14 @@ namespace WorldAsSupport.WorldAPI {
                     bytesRemaining -= bytesPerFrame;
                 }
             }
-            NativeArray<byte> data = new NativeArray<byte>(allBytes.Count, Allocator.Temp);
-            data.CopyFrom(allBytes.ToArray());
-            return data;
+            return allBytes.ToArray();
         }
 
         private WorldDocAnchorItemData SerializeAnchorItem(AnchorItemRef itemRef) {
             WorldDocAnchorItemData itemData = new WorldDocAnchorItemData();
+            if (itemRef.ItemInstance == null) {
+                return null;
+            }
             itemData.itemId = itemRef.ItemInstance.Label;
             itemData.instanceId = itemRef.ItemInstance.name;
             itemData.movedFromAnchorId = itemRef.MovedFromAnchorId;
@@ -161,14 +238,14 @@ namespace WorldAsSupport.WorldAPI {
             List<WorldDocAnchorData> anchorList = new List<WorldDocAnchorData>();
             
             foreach (Anchor anchor in Anchors.Values) {
-                Debug.Log("SerializeAnchors");
-                ARGameSession.DumpToConsole(anchor);
-
                 WorldDocAnchorData anchorData = new WorldDocAnchorData();
                 anchorData.id = anchor.NativeId;
 
                 // serialize item
                 anchorData.item = SerializeAnchorItem(anchor.Item);
+                if (anchorData.item == null) {
+                    continue;
+                }
 
                 // serialize child items, if there are any
                 List<WorldDocAnchorItemData> itemDataList = new List<WorldDocAnchorItemData>();
@@ -198,41 +275,26 @@ namespace WorldAsSupport.WorldAPI {
                     itemRef.data = anchorItemData;
                     anchor.ChildItems.Add(itemRef);
                 }
-                Anchors[anchorData.id] = anchor;
+                
+                m_Anchors[anchorData.id] = anchor;
             }
         }
 
-        public void LoadData() {
-            // read DocJson
-            using (StreamReader docReader = new StreamReader(DocDataPath)) {
-                string docJson = docReader.ReadToEnd();
-                Data = JsonUtility.FromJson<WorldDocData>(docJson);
+        public bool LoadData() {
+            try {
+                // read DocJson
+                using (StreamReader docReader = new StreamReader(DocDataPath)) {
+                    string docJson = docReader.ReadToEnd();
+                    Data = JsonUtility.FromJson<WorldDocData>(docJson);
+                }
+                return true;
+            } catch (Exception ex) {
+                Debug.Log("[LoadData] Error loading file: " + ex.ToString());
+                return false;
             }
-
-            // read VersionJson
-            using (StreamReader versionReader = new StreamReader(VersionDataPath)) {
-                string versionJson = versionReader.ReadToEnd();
-                CurrentVersion = new WorldVersion(JsonUtility.FromJson<WorldVersionData>(versionJson));
-            }
-
-            // deserialize the anchors
-            DeserializeAnchors(CurrentVersion.Data.anchors);
-
-    #if !UNITY_EDITOR && UNITY_IOS
-            // read, deserialize and load WorldMap 
-            using (NativeArray<byte> mapData = ReadMapFile()) {
-                ARWorldMap.TryDeserialize(ReadMapFile(), out WorldMap);
-            }
-    #else
-            // read, deserialize and load FakeWorldMap
-            using (StreamReader mapReader = new StreamReader(MapDataPath)) {
-                string mapJson = mapReader.ReadToEnd();
-                FakeWorldMap = JsonUtility.FromJson<FakeARWorldMapData>(mapJson);
-            }
-    #endif
         }
 
-        public async void SaveData() {
+        public async Task SaveData() {
             // create directories if needed
             if (!Directory.Exists(VersionDir)) {
                 Directory.CreateDirectory(VersionDir);
@@ -248,14 +310,17 @@ namespace WorldAsSupport.WorldAPI {
 
             try {
                 // create a new version
-                CurrentVersion = new WorldVersion();
+                WorldVersion nextVersion = new WorldVersion();
 
                 // serialize anchors dict to doc data
-                CurrentVersion.Data.anchors = SerializeAnchors();
+                nextVersion.Data.anchors = SerializeAnchors();
+
+                // commit CurrentVersion
+                CurrentVersion = nextVersion;
 
                 // serialize the doc data to JSON
                 string docJson = JsonUtility.ToJson(Data);
-                string versionJson = JsonUtility.ToJson(CurrentVersion.Data);
+                string versionJson = JsonUtility.ToJson(nextVersion.Data);
 
                 // write DocJson
                 using (StreamWriter docWriter = new StreamWriter(DocDataPath)) {

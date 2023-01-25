@@ -26,7 +26,10 @@ namespace WorldAsSupport {
             public List<WorldDoc> GetLocalDocList() {
                 List<WorldDoc> WorldDocs = new List<WorldDoc>();
                 foreach (string docId in Directory.EnumerateDirectories(DataDir)) {
-                    WorldDocs.Add(new WorldDoc(docId));
+                    WorldDoc worldDoc = new WorldDoc(docId);
+                    if (worldDoc.Data != null) {
+                        WorldDocs.Add(worldDoc);
+                    }
                 }
                 return WorldDocs;
             }

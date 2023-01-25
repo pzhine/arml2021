@@ -10,7 +10,7 @@ using WorldAsSupport.WorldAPI;
 namespace WorldAsSupport {
     public class AnchorItemRef {
         public WorldDocAnchorItemData data;
-
+    
         // PlaceableItem associated with this anchor
         private PlaceableItem m_ItemInstance;
         public PlaceableItem ItemInstance {
@@ -23,7 +23,6 @@ namespace WorldAsSupport {
                 // If WorldDocAnchorItemData exists on the item, we're doing a restore,
                 //   so restore the position and rotation
                 if (data != null) {
-                    Debug.Log("Object: " + m_ItemInstance.transform.name);
                     m_ItemInstance.transform.position = data.position;
                     m_ItemInstance.transform.rotation = data.rotation;
                     m_ItemInstance.transform.localScale = data.scale;
@@ -79,10 +78,15 @@ namespace WorldAsSupport {
 
     public class AnchorProvider {
         private ARAnchorManager m_ARAnchorManager;
+        public bool WaitingForRestore = false;
         
         public AnchorProvider(ARAnchorManager arAnchorManager) {
             m_ARAnchorManager = arAnchorManager;
             m_ARAnchorManager.anchorsChanged += m_OnAnchorsChanged;
+        }
+
+        public void OnDestroy() {
+            m_ARAnchorManager.anchorsChanged -= m_OnAnchorsChanged;
         }
 
         public Anchor PlaceAnchor(Pose pose, PlaceableItem item) {
@@ -190,6 +194,11 @@ namespace WorldAsSupport {
 
         // Instantiate PlaceableItems when anchors are created during loading of a WorldMap.
         private void RestoreAnchor(string anchorKey, Transform anchorTransform, ARAnchor arAnchor ) {
+            if (!ARGameSession.current.WorldDoc.Anchors.ContainsKey(anchorKey)) {
+                // an ARAnchor was saved (or left) for a item that no longer exists
+                Debug.Log("[AnchorProvider.RestoreAnchor] WARNING anchor no longer exists for key: " + anchorKey);
+                return;
+            }
             Anchor anchor = ARGameSession.current.WorldDoc.Anchors[anchorKey];
  
             // If anchor already has an item instance assigned
@@ -198,7 +207,7 @@ namespace WorldAsSupport {
                 return;
             }
             
-            Debug.Log("RestoreAnchor: " + anchor.Item.data.itemId);
+            Debug.Log("[AnchorProvider.RestoreAnchor] " + anchor.Item.data.itemId);
 
             PlaceableItem item;
 
@@ -206,6 +215,7 @@ namespace WorldAsSupport {
             //   try to find the instance in the MovedFromAnchor
             // If that anchor hasn't been instantiated yet, bail early and we'll hit it in pass 2
             if (anchor.Item.MovedFromAnchorId != null) {
+                Debug.Log("[AnchorProvider.RestoreAnchor] MovedFromAnchorId " + anchor.Item.MovedFromAnchorId);
                 Anchor fromAnchor = ARGameSession.current.WorldDoc.Anchors[anchor.Item.MovedFromAnchorId];
                 if (fromAnchor.Item.ItemInstance == null) {
                     return;
@@ -222,8 +232,10 @@ namespace WorldAsSupport {
             anchor.Item.ItemInstance = 
                 ARGameSession.current.InstantiatePlaceableItem(item, anchor, anchorTransform);
 
-            // attach the native anchor
+            // attach the anchor and native anchor
+            anchor.Item.ItemInstance.Anchor = anchor;
             anchor.NativeAnchor = arAnchor;
+            anchor.NativeId = AnchorProvider.GetAnchorKey(arAnchor);
 
             // Iterate over ChildItems, if they exist
             //   find their corresponding PlaceableItem instance inside the primary PlaceableItem
@@ -246,6 +258,9 @@ namespace WorldAsSupport {
 
         // This function is called by the ARKit subsystem when a new ARAnchor has been added to the world.
         private void m_OnAnchorsChanged(ARAnchorsChangedEventArgs eventArgs) {
+            if (!m_ARAnchorManager.subsystem.running) {
+                return;
+            }
             Debug.Log("OnAnchorsChanged");
             // We have to run through the restore in 2 passes, because some of the anchors depend on others
             //   already restored (e.g. for MovedFromAnchorId)
@@ -254,6 +269,10 @@ namespace WorldAsSupport {
                     string anchorKey = GetAnchorKey(arAnchor);
                     RestoreAnchor(anchorKey, arAnchor.transform, arAnchor);
                 }
+            }
+            if (eventArgs.added != null && eventArgs.added.Count > 0 && WaitingForRestore) {
+                DisplayProvider.current.SetSecondaryDisplayActive(true);
+                WaitingForRestore = false;
             }
         }
 
@@ -266,7 +285,7 @@ namespace WorldAsSupport {
                 fakeAnchors.Add(fakeAnchor);
             }
             for (int i = 0; i < 2; i++) { 
-                Debug.Log("Restore pass: " + i + 1);
+                Debug.Log("Restore pass: " + (i + 1));
                 foreach (FakeARAnchor fakeAnchor in fakeAnchors) {
                     RestoreAnchor(fakeAnchor.id, fakeAnchor.transform, new ARAnchor());
                 }

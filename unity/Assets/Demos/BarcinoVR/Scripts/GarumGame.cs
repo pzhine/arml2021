@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WorldAsSupport {
+namespace WorldAsSupport
+{
 
     public class GarumGame : InteractableGame
     {
@@ -28,30 +29,28 @@ namespace WorldAsSupport {
 
 
 
-        protected override void Grabbed(InteractableItem ingredient) {
-            
+        protected override void Grabbed(InteractableItem ingredient)
+        {
+
             //change to second state
             firstToSecond();
 
             //------------------------------------Grab Action----------------------------------------
             ingredient.IsInteracting = true;
-            
+
             // Deactivate the gravity to be able to Grab it
             GameObject ingredientGrabbed = ingredient.States[1];
             ingredientGrabbed.GetComponent<Rigidbody>().isKinematic = true;
 
             Camera cam = ARGameSession.current.ProjectorViewCamera;
 
-            if (ARGameSession.current.ExperiencesManager.isWindow_on_the_World){
-                cam = GameObject.Find("AR Camera (WoW)").GetComponent<Camera>();
-            }
-
             //transform.position maybe is CurrentGrabbed.gameObject.transform.position, but the result is the same
             distanceToCamera = Vector3.Distance(cam.GetComponent<Transform>().position, transform.position);
 
             //particles animation
             GameObject grabFX = GameObject.Find("GrabFX");
-            if (grabFX){
+            if (grabFX)
+            {
                 grabFX.transform.position = CurrentGrabbed.transform.position;
                 grabFX.GetComponent<ParticleSystem>().Play();
             }
@@ -65,25 +64,31 @@ namespace WorldAsSupport {
             startPosition = CurrentGrabbed.transform.position;
 
             // Remove de Glow particles
-            if (GameObject.Find("Ingredients Jar/" + CurrentGrabbed.name + " Jar") != null){
+            if (GameObject.Find("Ingredients Jar/" + CurrentGrabbed.name + " Jar") != null)
+            {
                 GameObject.Find("Ingredients Jar/" + CurrentGrabbed.name + " Jar").gameObject.GetComponentInChildren<ParticleSystem>().Stop();
             }
-            
+
 
             //All right
             Debug.Log("Grabbed " + ingredient.name);
 
         }
 
-        protected override void Dropped(InteractableItem recipient){
+        protected override void Dropped(InteractableItem recipient)
+        {
 
             //-----------------------Verify if we can do the DropAction---------------------------
 
-            if (!isFermenting && CurrentGrabbed.IsInteracting){
+            if (!isFermenting && CurrentGrabbed.IsInteracting)
+            {
                 //Recipient is NOT fermenting and there are something interacting now (an Ingredient)
                 Debug.Log("Pointing to a Recipient");
-            }else{
-                if (isFermenting == true){
+            }
+            else
+            {
+                if (isFermenting == true)
+                {
                     Debug.Log("The recipient is Fermenting");
                 }
                 return;
@@ -93,7 +98,7 @@ namespace WorldAsSupport {
 
             CurrentGrabbed.GetComponent<BoxCollider>().enabled = false;
             CurrentGrabbed.IsInteracting = false;
-            
+
             // Change to third state
             //secondToThird();
 
@@ -104,9 +109,10 @@ namespace WorldAsSupport {
             GameObject targetDrop = CurrentGrabbed.States[1];
             targetDrop.GetComponent<Rigidbody>().isKinematic = false;
 
-            
+
             var renderers = GetComponentsInChildren<Renderer>();
-            foreach (var render in renderers){
+            foreach (var render in renderers)
+            {
                 render.material.renderQueue = 3002; // set their renderQueue
             }
 
@@ -119,7 +125,7 @@ namespace WorldAsSupport {
             AddIngredient(CurrentGrabbed.name);
 
             // Put the Ingredient inside the Parent IngredientsCollected
-            GameObject ingredientsCollected =  GameObject.Find("IngredientsCollected").gameObject;
+            GameObject ingredientsCollected = GameObject.Find("IngredientsCollected").gameObject;
             Debug.Log(ingredientsCollected.name);
             CurrentGrabbed.transform.parent = ingredientsCollected.transform;//recipient.transform.parent.Find("IngredientsCollected");
 
@@ -134,20 +140,24 @@ namespace WorldAsSupport {
 
 
         //-----------------------------------------------Ingredients Manager----------------------------------------------------------
-        protected override void ChildStart(){
+        protected override void ChildStart()
+        {
             startFirst();
         }
 
-        void changeActivation(InteractableItem ingredient, bool a, bool b, bool c){
+        void changeActivation(InteractableItem ingredient, bool a, bool b, bool c)
+        {
 
             ingredient.States[0].SetActive(a);
             ingredient.States[1].SetActive(b);
             ingredient.States[2].SetActive(c);
         }
 
-        private void startFirst(){
+        private void startFirst()
+        {
 
-            foreach (InteractableItem ingredient in GrabbableItems){
+            foreach (InteractableItem ingredient in GrabbableItems)
+            {
 
                 //load the ingredients from the prefabs and set its position to the parent's position
                 var a = Instantiate(ingredient.States[0], new Vector3(0, 0, 0), Quaternion.identity);
@@ -160,7 +170,8 @@ namespace WorldAsSupport {
             }
         }
 
-        public void firstToSecond(){
+        public void firstToSecond()
+        {
 
             var a = Instantiate(CurrentGrabbed.States[1], CurrentGrabbed.transform.position, Quaternion.identity);
             a.transform.parent = CurrentGrabbed.transform;
@@ -171,7 +182,8 @@ namespace WorldAsSupport {
             changeActivation(CurrentGrabbed, false, true, false);
         }
 
-        protected override void secondToThird(){
+        protected override void secondToThird()
+        {
             var a = Instantiate(CurrentGrabbed.States[2], new Vector3(0, 0, 0), Quaternion.identity);
             a.transform.parent = CurrentGrabbed.transform;
 
@@ -185,10 +197,11 @@ namespace WorldAsSupport {
         }
         //---------------------------------------------------------------------------------------------------------------------------
 
-        
+
 
         //--------------------------------------------Recipient Behaviour---------------------------------------------------------
-        protected override void ChildAwake(){
+        protected override void ChildAwake()
+        {
 
 
             // Create a list to control the Ingredients we are collecting
@@ -206,14 +219,19 @@ namespace WorldAsSupport {
 
 
         }
-        protected override void ChildUpdate() {
+        protected override void ChildUpdate()
+        {
 
             // Deactivate the gravity for all ingredients
-            if (ARGameSession.current.CurrentMode == AppMode.Editor && editorMode == false) {
-                foreach (InteractableItem ingredients in GrabbableItems) {
+            if (ARGameSession.current.CurrentMode == AppMode.Editor && editorMode == false)
+            {
+                foreach (InteractableItem ingredients in GrabbableItems)
+                {
                     Transform[] allChildren = ingredients.GetComponentsInChildren<Transform>();
-                    foreach (Transform child in allChildren){
-                        if(child.GetComponent<Rigidbody>() != null){
+                    foreach (Transform child in allChildren)
+                    {
+                        if (child.GetComponent<Rigidbody>() != null)
+                        {
                             child.GetComponent<Rigidbody>().isKinematic = true;
                         }
                     }
@@ -222,12 +240,16 @@ namespace WorldAsSupport {
             }
 
             // If we are in the Game mode, Activate the gravity for the Ingredients
-            if (ARGameSession.current.CurrentMode == AppMode.Game && gameMode == false){
+            if (ARGameSession.current.CurrentMode == AppMode.Game && gameMode == false)
+            {
 
-                foreach (InteractableItem ingredients in GrabbableItems){
+                foreach (InteractableItem ingredients in GrabbableItems)
+                {
                     Transform[] allChildren = ingredients.GetComponentsInChildren<Transform>();
-                    foreach (Transform child in allChildren){
-                        if (child.GetComponent<Rigidbody>() != null){
+                    foreach (Transform child in allChildren)
+                    {
+                        if (child.GetComponent<Rigidbody>() != null)
+                        {
                             child.GetComponent<Rigidbody>().isKinematic = false;
                         }
                     }
@@ -236,7 +258,8 @@ namespace WorldAsSupport {
             }
 
 
-            if (collectedIngredients.Contains("Fish") && collectedIngredients.Contains("Salt") && collectedIngredients.Contains("Herbs")){
+            if (collectedIngredients.Contains("Fish") && collectedIngredients.Contains("Salt") && collectedIngredients.Contains("Herbs"))
+            {
                 //hintsWall.transform.Find("Text_Weeks").gameObject.GetComponent<TextMesh>().text = "0 weeks";
 
                 // Activate the text fot Pass Weeks
@@ -253,7 +276,8 @@ namespace WorldAsSupport {
                 StartCoroutine(CreateGarum());
                 collectedIngredients.Clear();
             }
-            if (isFermenting){
+            if (isFermenting)
+            {
                 Ferment();
                 int weeksPassed = (int)((Time.time - startTimeRecipient) * fermentationSpeed * 15);
                 string weekMeshPath = "Barcino/Imports/GarumGame/Hints Wall/" + weeksPassed.ToString() + " weeks";
@@ -264,7 +288,8 @@ namespace WorldAsSupport {
 
         }
 
-        public void AddIngredient(string ingredientType){
+        public void AddIngredient(string ingredientType)
+        {
             // Add the ingredient to the list of Ingredients Collected
             collectedIngredients.Add(ingredientType);
 
@@ -274,12 +299,13 @@ namespace WorldAsSupport {
 
         }
 
-        IEnumerator CreateGarum(){
+        IEnumerator CreateGarum()
+        {
             yield return new WaitForSeconds(2);
 
             //deactivate ingredients because we are going to ferment
             //GameObject.Find("IngredientsCollected").SetActive(false); 
-            
+
 
             // we obtain the recipient to put there the GarumGO object
             InteractableItem recipient = DroppableItems[0];
@@ -296,9 +322,9 @@ namespace WorldAsSupport {
             Color orange = new Color(1f, 0.5f, 0f, 1f);
             rawGarum.GetComponent<MeshRenderer>().material.SetColor("_Color", orange);*/
 
-            
+
             // GameObject dolia = recipient.gameObject;
-            
+
             GameObject IngredientsCollected = GameObject.Find("IngredientsCollected").gameObject;
             IngredientsCollected.GetComponent<Animator>().enabled = true;
 
@@ -308,7 +334,7 @@ namespace WorldAsSupport {
             //activate the Fermentation Animation
             Animator F_animation = ferment.GetComponent<Animator>();
             F_animation.enabled = true;
-            
+
 
 
 
@@ -318,7 +344,8 @@ namespace WorldAsSupport {
             startTimeRecipient = Time.time;
         }
 
-        void Ferment(){
+        void Ferment()
+        {
             float interpolationParameter = (Time.time - startTimeRecipient) * fermentationSpeed;
             //Material garumMaterial = GetComponentsInChildren<MeshRenderer>()[1].material;
             Color orange = new Color(70 / 255f, 50 / 255f, 40 / 255f, 1f);
@@ -326,7 +353,8 @@ namespace WorldAsSupport {
 
             //garumMaterial.SetColor("_Color", Color.Lerp(orange, brown, interpolationParameter));
 
-            if (interpolationParameter >= 1){
+            if (interpolationParameter >= 1)
+            {
                 this.enabled = false;
                 isFermenting = false;
                 Debug.Log("Deja de fermentar");

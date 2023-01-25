@@ -14,7 +14,9 @@ namespace WorldAsSupport {
         public void OnOkButtonPressed() {
             WorldDoc worldDoc = new WorldDoc();
             worldDoc.Data.name = NameInput.text;
+            WorldSceneLoader.current.LoadSceneWithWorldDoc(worldDoc);
             ARGameSession.current.WorldDoc = worldDoc;
+            ARGameSession.current.AnchorProvider.WaitingForRestore = false;
             NameInput.text = "";
             ARGameSession.current.DismissAllModals();
         }

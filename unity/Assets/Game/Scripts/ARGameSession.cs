@@ -1,5 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
@@ -27,6 +27,9 @@ namespace WorldAsSupport {
         // singleton instance
         public static ARGameSession current;
 
+        // Scene management
+        public bool IsInitialized = false;
+        
         // ARFoundation instance references
         private ARRaycastManager m_RaycastManager;
         public ARRaycastManager RaycastManager {
@@ -64,13 +67,6 @@ namespace WorldAsSupport {
             }
         }
 
-        private DisplayProvider m_DisplayProvider;
-        public DisplayProvider DisplayProvider {
-            get {
-                return m_DisplayProvider;
-            }
-        }
-
         private LanguageProvider m_LanguageProvider;
         public LanguageProvider LanguageProvider {
             get {
@@ -82,13 +78,6 @@ namespace WorldAsSupport {
         public WaypointProvider WaypointProvider {
             get {
                 return m_WaypointProvider;
-            }
-        }
-
-        private ExperiencesManager m_ExperiencesManager;
-        public ExperiencesManager ExperiencesManager {
-            get {
-                return m_ExperiencesManager;
             }
         }
 
@@ -155,25 +144,36 @@ namespace WorldAsSupport {
                 m_WorldDoc = value;
                 WorldDocNameLabel.text = value.Data.name;
                 
-                // if id hasn't changed, don't do anything
-                if (previousId == value.Data._id) {
-                    return;
-                }
-                
                 // reset the world
-                ResetWorld();
+                // ResetWorld();
+
+                // System.GC.Collect();
+                // Resources.UnloadUnusedAssets();
+                // Scene = SceneManager.GetActiveScene(); 
+                // SceneManager.LoadScene(Scene.name);
 
                 // load WorldMap if it exists
-    #if !UNITY_EDITOR && UNITY_IOS
+            #if !UNITY_EDITOR && UNITY_IOS
+                ARKitSessionSubsystem subsystem = (ARKitSessionSubsystem)ARSession.subsystem;
+                // subsystem.Reset();
+                
                 if (m_WorldDoc.WorldMap.valid) {
-                    ARKitSessionSubsystem subsystem = (ARKitSessionSubsystem)ARSession.subsystem;
+                    Debug.Log("[ARGameSession] ApplyWorldMap");
+                    
+                    // tell the anchor provider to turn on the projector when the anchors are loaded
+                    AnchorProvider.WaitingForRestore = true;
+                    DisplayProvider.current.SetSecondaryDisplayActive(false);
+
+                    // reset the subsystem and apply the map
                     subsystem.ApplyWorldMap(m_WorldDoc.WorldMap);
+                    DisplayProvider.current.SetPlaceableOcclusionMaterial(DisplayProvider.current.SecondaryDisplayActive);
                 }
-    #else
+            #else
                 if (m_WorldDoc.FakeWorldMap != null) {
                     AnchorProvider.ApplyFakeWorldMap(m_WorldDoc.FakeWorldMap);
+                    DisplayProvider.current.SetPlaceableOcclusionMaterial(DisplayProvider.current.VirtualProjectorActive);
                 }
-    #endif
+            #endif
             }
         }
 
@@ -272,6 +272,9 @@ namespace WorldAsSupport {
         [HideInInspector]
         public ModalWindow EditAnchorModal;
 
+        [HideInInspector]
+        public ModalWindow RemoteControlModal;
+
         // HUD Overlays
         [HideInInspector]
         public GameObject HUDCanvas;
@@ -350,6 +353,8 @@ namespace WorldAsSupport {
         public bool PauseGame = false;
 
         public AudioMixer AudioMixer;
+        public AudioSource m_PingAudioSource;
+        private float m_LastAudioPingTime;
 
         void Awake() {
             // find/initialize managers
@@ -359,10 +364,8 @@ namespace WorldAsSupport {
             m_AnchorManager = GetComponent<ARAnchorManager>();
             m_AnchorProvider = new AnchorProvider(m_AnchorManager);
             m_PlaceableProvider = GetComponent<PlaceableProvider>();
-            m_DisplayProvider = GetComponent<DisplayProvider>();
             m_LanguageProvider = GetComponent<LanguageProvider>();
             m_WaypointProvider = GetComponent<WaypointProvider>();
-            m_ExperiencesManager = GetComponent<ExperiencesManager>();
 
             // find cameras , projectors & lights
             ARCamera = transform.Find("Player/AR Camera").GetComponent<Camera>();
@@ -403,6 +406,8 @@ namespace WorldAsSupport {
 
             // init ui components
             InitUIComponents();
+
+            m_PingAudioSource = GetComponent<AudioSource>();
         }
 
         void Start() {
@@ -411,8 +416,10 @@ namespace WorldAsSupport {
 
             CurrentState = AppState.Root;
             CurrentMode = AppMode.Editor;
-            m_CurrentData = new UserData();          
-            
+            m_CurrentData = new UserData();
+
+            // mark ARGameSession as initialized and ready for a WorldDoc
+            this.IsInitialized = true;
         }
 
         void FixedUpdate() {
@@ -438,6 +445,14 @@ namespace WorldAsSupport {
                 (Time.fixedTime - m_ExitGameModeTime > 3)
             ) {
                 m_ExitGameModeCounter = 0;
+            }
+
+            // send audio ping every 2 min
+            int interval = 2 * 60;
+            if (Time.fixedTime - m_LastAudioPingTime > interval) {
+                m_LastAudioPingTime = Time.fixedTime;
+                // play ping sound
+                m_PingAudioSource.Play();
             }
         }
 
@@ -470,6 +485,7 @@ namespace WorldAsSupport {
             RootMenuModal = mt.Find("RootMenuModal").GetComponent<ModalWindow>();
             PlaceablesModal = mt.Find("PlaceablesModal").GetComponent<ModalWindow>();
             EditAnchorModal = mt.Find("EditAnchorModal").GetComponent<ModalWindow>();
+            RemoteControlModal = mt.Find("RemoteControlModal").GetComponent<ModalWindow>();
 
             PlaceableHUD = ht.Find("PlaceableHUD").GetComponent<PlaceableHUD>();
             TransformHUD = ht.Find("TransformHUD").GetComponent<TransformHUD>();
@@ -634,6 +650,7 @@ namespace WorldAsSupport {
                     Debug.LogWarning("RESET");
                     interactactable_child.Reset();
                 }
+                Debug.Log("[ARGameSession.ResetWorld] " + item.name);
                 Destroy(item.gameObject);
             }
     #if !UNITY_EDITOR

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using WorldAsSupport.Research;
 
-namespace WorldAsSupport {
+namespace WorldAsSupport
+{
 
     public class TowelBehavior : MonoBehaviour
     {
@@ -24,7 +25,8 @@ namespace WorldAsSupport {
             LoadingBar.current.LoadingComplete += GrabObject;
         }
 
-        void GrabObject(){
+        void GrabObject()
+        {
             //we get the object we are interacting with (in this case, the towel)
             GameObject target = RaycastProvider.currentTarget;
             //target.GetComponent<BoxCollider>().isTrigger = true;
@@ -41,10 +43,6 @@ namespace WorldAsSupport {
 
                 Camera cam = ARGameSession.current.ProjectorViewCamera;
 
-                if (ARGameSession.current.ExperiencesManager.isWindow_on_the_World)
-                {
-                    cam = GameObject.Find("AR Camera (WoW)").GetComponent<Camera>();
-                }
                 distanceToCamera = Vector3.Distance(cam.GetComponent<Transform>().position, transform.position);
 
                 //articles animation
@@ -89,13 +87,15 @@ namespace WorldAsSupport {
             {
                 return;
             }
-        }              
+        }
 
-        void BringToFixedDistance(Vector3 carryingPosition) {
+        void BringToFixedDistance(Vector3 carryingPosition)
+        {
             float interpolationParameter = (Time.time - startTime) * speed;
             transform.position = Vector3.Lerp(startPosition, carryingPosition, interpolationParameter);
 
-            if(transform.position == carryingPosition){
+            if (transform.position == carryingPosition)
+            {
                 IsBeingGrabbed = false;
             }
         }
@@ -104,21 +104,21 @@ namespace WorldAsSupport {
         {
             if (GetComponent<InteractableItem>() == null) return;
 
-            if (GetComponent<InteractableItem>().IsInteracting) {
+            if (GetComponent<InteractableItem>().IsInteracting)
+            {
 
                 Camera cam = ARGameSession.current.ProjectorViewCamera;
 
-                if(ARGameSession.current.ExperiencesManager.isWindow_on_the_World){
-                    cam = GameObject.Find("AR Camera (WoW)").GetComponent<Camera>();
-                }
-
-                Vector3 carryingPosition = cam.transform.forward*CarryingItemDistanceToCamera + cam.transform.position;
-                if (IsBeingGrabbed) {
+                Vector3 carryingPosition = cam.transform.forward * CarryingItemDistanceToCamera + cam.transform.position;
+                if (IsBeingGrabbed)
+                {
                     BringToFixedDistance(carryingPosition);
-                } else {
+                }
+                else
+                {
                     transform.position = carryingPosition;
                 }
-            }                 
+            }
         }
-   }
+    }
 }

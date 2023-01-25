@@ -6,15 +6,15 @@ using UnityEngine.UI;
 namespace WorldAsSupport {
     public class RootMenuModal : ModalWindow {
         private Button m_EditWorldDocButton;
-        private Toggle m_FlashlightToggle;
+        public Toggle FlashlightToggle;
 
         public override void Awake() {
             base.Awake();
             m_EditWorldDocButton = FindContentRow("EditWorldDoc").GetComponentInChildren<Button>();
-            m_FlashlightToggle = gameObject.transform.Find("HeaderBar/FlashlightButton").GetComponent<Toggle>();
-            m_FlashlightToggle.gameObject.SetActive(false);
+            FlashlightToggle = gameObject.transform.Find("HeaderBar/FlashlightButton").GetComponent<Toggle>();
+            FlashlightToggle.gameObject.SetActive(false);
             #if UNITY_IOS && !UNITY_EDITOR
-                m_FlashlightToggle.gameObject.SetActive(true);
+                FlashlightToggle.gameObject.SetActive(true);
             #endif
         }
 
@@ -24,14 +24,27 @@ namespace WorldAsSupport {
         }
 
         public void OnFlashlightTogglePressed() {
-            Debug.Log("Toggle Flashlight: " + m_FlashlightToggle.isOn);
+            RemoteProvider rp = RemoteProvider.current;
+            if (rp.Role == RemoteProviderRole.Sender &&
+                rp.Status == RemoteProviderStatus.Connected
+            ) {
+                rp.CommandDispatcher.ToggleFlashlight(FlashlightToggle.isOn);
+            } else {
             #if UNITY_IOS && !UNITY_EDITOR
-                NativeFlashlight.EnableFlashlight(m_FlashlightToggle.isOn);
+                NativeFlashlight.EnableFlashlight(FlashlightToggle.isOn);
             #endif
+            }
         }
 
         public void OnStartGamePressed() {
-            ARGameSession.current.CurrentMode = AppMode.Game;
+            RemoteProvider rp = RemoteProvider.current;
+            if (rp.Role == RemoteProviderRole.Sender &&
+                rp.Status == RemoteProviderStatus.Connected
+            ) {
+                rp.CommandDispatcher.StartGame();
+            } else {
+                ARGameSession.current.CurrentMode = AppMode.Game;
+            }
         }
     }
 }

@@ -2,26 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WorldAsSupport {
+namespace WorldAsSupport
+{
     public class DyeGame : InteractableGame
     {
         private GameObject clothes_to_drop;
 
-        protected override void ChildStart(){
+        protected override void ChildStart()
+        {
             clothes_to_drop = null;
         }
-        protected override void Grabbed(InteractableItem dye) 
+        protected override void Grabbed(InteractableItem dye)
         {
             firstToSecond();
 
             dye.IsInteracting = true;
 
             Camera cam = ARGameSession.current.ProjectorViewCamera;
-
-            if (ARGameSession.current.ExperiencesManager.isWindow_on_the_World)
-            {
-                cam = GameObject.Find("AR Camera (WoW)").GetComponent<Camera>();
-            }
 
             //transform.position maybe is CurrentGrabbed.gameObject.transform.position, but the result is the same
             distanceToCamera = Vector3.Distance(cam.GetComponent<Transform>().position, transform.position);
@@ -44,7 +41,7 @@ namespace WorldAsSupport {
 
             Debug.Log("Grabbed " + dye.name);
         }
-        protected override void Dropped(InteractableItem dropClothes) 
+        protected override void Dropped(InteractableItem dropClothes)
         {
             CurrentGrabbed.GetComponent<BoxCollider>().enabled = false;
             CurrentGrabbed.IsInteracting = false;
@@ -69,7 +66,7 @@ namespace WorldAsSupport {
         }
 
 
-        public void firstToSecond() {}
+        public void firstToSecond() { }
 
         protected override void secondToThird()
         {
@@ -82,5 +79,5 @@ namespace WorldAsSupport {
             clothes_to_drop = null;
         }
 
-    } 
+    }
 }

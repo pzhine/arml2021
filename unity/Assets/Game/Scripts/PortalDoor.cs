@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WorldAsSupport {
-    public class PortalDoor : MonoBehaviour {
+namespace WorldAsSupport
+{
+    public class PortalDoor : MonoBehaviour
+    {
         public GameObject PortalCameraPrefab;
         private Transform PortalCameraTransform;
         private GameObject cameraContainer;
 
-        void Start() {
+        void Start()
+        {
             cameraContainer = Instantiate(
                 PortalCameraPrefab,
                 Vector3.zero,
@@ -17,12 +20,10 @@ namespace WorldAsSupport {
             );
         }
 
-        void LateUpdate() {
+        void LateUpdate()
+        {
             Camera cam = ARGameSession.current.ARCamera;
 
-            if(ARGameSession.current.ExperiencesManager.isWindow_on_the_World){
-                cam = GameObject.Find("AR Camera (WoW)").GetComponent<Camera>();
-            }
             Transform playerCameraTransform = cam.transform;
             PortalCameraTransform = cameraContainer.GetComponentInChildren<Camera>().transform;
 

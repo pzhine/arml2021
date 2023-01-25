@@ -66,7 +66,11 @@ namespace WorldAsSupport {
             // get all renderers in this object and its children:
             Component[] renderers = GetComponentsInChildren<Renderer>();
             foreach (Renderer renderer in renderers) {
-                renderer.material.renderQueue = 2002; // set their renderQueue
+                if (renderer.gameObject.layer != LayerMask.NameToLayer("PlaceableOcclusion")) {
+                    foreach (Material mat in renderer.materials) {
+                        mat.renderQueue = 2002; // set their renderQueue
+                    }
+                }
             }
         }
 

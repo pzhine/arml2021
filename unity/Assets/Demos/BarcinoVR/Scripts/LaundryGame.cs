@@ -2,17 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WorldAsSupport {
+namespace WorldAsSupport
+{
     public class LaundryGame : InteractableGame
     {
         //most of the functions are from the old scripts: TowelBehaviour and ClothesManager
         enum LaundryGameStages
-            {
-                INITIAL = 0,
-                GRAB = 1,
-                MIXING = 2,
-                HANGING = 3,     
-            }
+        {
+            INITIAL = 0,
+            GRAB = 1,
+            MIXING = 2,
+            HANGING = 3,
+        }
 
         LaundryGameStages currentStage;
         private GameObject hanger_to_drop;
@@ -28,27 +29,22 @@ namespace WorldAsSupport {
         protected override void InteractionZoneComplete(InteractableItem item)
         {
             //check if we still inside zone
-                //while true --> timer 10 secs
-                //if 10 secs passed
-                startInteractionZoneTime = Time.time;
-                Debug.Log(startInteractionZoneTime - Time.time);
-                //if((startInteractionZoneTime - Time.time) >=)
-                audioSource.PlayOneShot(Resources.Load<AudioClip>("Barcino/Sounds/correct_sound"));
-                //go next stage
+            //while true --> timer 10 secs
+            //if 10 secs passed
+            startInteractionZoneTime = Time.time;
+            Debug.Log(startInteractionZoneTime - Time.time);
+            //if((startInteractionZoneTime - Time.time) >=)
+            audioSource.PlayOneShot(Resources.Load<AudioClip>("Barcino/Sounds/correct_sound"));
+            //go next stage
         }
 
-        protected override void Grabbed(InteractableItem cloth) 
+        protected override void Grabbed(InteractableItem cloth)
         {
             firstToSecond();
 
             cloth.IsInteracting = true;
 
             Camera cam = ARGameSession.current.ProjectorViewCamera;
-
-            if (ARGameSession.current.ExperiencesManager.isWindow_on_the_World)
-            {
-                cam = GameObject.Find("AR Camera (WoW)").GetComponent<Camera>();
-            }
 
             //transform.position maybe is CurrentGrabbed.gameObject.transform.position, but the result is the same
             distanceToCamera = Vector3.Distance(cam.GetComponent<Transform>().position, transform.position);
@@ -70,7 +66,7 @@ namespace WorldAsSupport {
 
             Debug.Log("Grabbed " + cloth.name);
         }
-        protected override void Dropped(InteractableItem hanger) 
+        protected override void Dropped(InteractableItem hanger)
         {
             CurrentGrabbed.GetComponent<BoxCollider>().enabled = false;
             CurrentGrabbed.IsInteracting = false;
@@ -91,18 +87,20 @@ namespace WorldAsSupport {
 
         }
 
-        protected override List<InteractionType> AvailableInteractionTypes(){
-            switch(currentStage){
+        protected override List<InteractionType> AvailableInteractionTypes()
+        {
+            switch (currentStage)
+            {
                 case LaundryGameStages.INITIAL:
-                    return new List<InteractionType>(){InteractionType.Grabbable};
+                    return new List<InteractionType>() { InteractionType.Grabbable };
                 case LaundryGameStages.GRAB:
-                    return new List<InteractionType>(){InteractionType.InteractionZone};
+                    return new List<InteractionType>() { InteractionType.InteractionZone };
                 case LaundryGameStages.MIXING:
-                    return new List<InteractionType>(){InteractionType.Droppable};
+                    return new List<InteractionType>() { InteractionType.Droppable };
                 case LaundryGameStages.HANGING:
-                    return new List<InteractionType>(){InteractionType.None};
+                    return new List<InteractionType>() { InteractionType.None };
                 default:
-                    return new List<InteractionType>(){};
+                    return new List<InteractionType>() { };
             }
         }
 
@@ -157,7 +155,7 @@ namespace WorldAsSupport {
 
             // activate third towel state
             CurrentGrabbed.States[2].GetComponent<Cloth>().capsuleColliders = cc;
-            if(CurrentGrabbed.States[2].transform.Find("Cloth 2 bottom"))
+            if (CurrentGrabbed.States[2].transform.Find("Cloth 2 bottom"))
             {
                 CurrentGrabbed.States[2].transform.Find("Cloth 2 bottom").GetComponent<Cloth>().capsuleColliders = cc;
             }
@@ -172,7 +170,7 @@ namespace WorldAsSupport {
 
             CurrentGrabbed.transform.rotation = hanger_to_drop.transform.rotation;
             CurrentGrabbed.transform.Rotate(90, 0, 0);
-            
+
 
             CurrentGrabbed.transform.parent = hanger_to_drop.transform;
             //float y = hanger_to_drop.transform.rotation.eulerAngles.y;
@@ -181,7 +179,7 @@ namespace WorldAsSupport {
 
             CurrentGrabbed.transform.parent = oldTransform;
             CurrentGrabbed.transform.localScale = oldScale;
-            
+
             /*
             CurrentGrabbed.transform.localRotation = Quaternion.Euler(
                 CurrentGrabbed.transform.localRotation.eulerAngles.x,
@@ -228,5 +226,5 @@ namespace WorldAsSupport {
             */
         }
 
-    } 
+    }
 }

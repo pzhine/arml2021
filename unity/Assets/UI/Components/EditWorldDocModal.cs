@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using WorldAsSupport.WorldAPI;
+using System.Threading.Tasks;
 using UnityEngine.UI;
 
 namespace WorldAsSupport {
@@ -11,10 +12,10 @@ namespace WorldAsSupport {
         private InputField m_LastModifiedInput;
         private Button m_SaveButton;
 
-        public void OnSaveWorldDocPressed() {
+        public async void OnSaveWorldDocPressed() {
             WorldDoc worldDoc = ARGameSession.current.WorldDoc;
-            worldDoc.SaveData();
-            ARGameSession.current.WorldDoc = worldDoc;
+            await worldDoc.SaveData();
+            // ARGameSession.current.WorldDoc = worldDoc;
             UpdateVersionInfo();
         }
 

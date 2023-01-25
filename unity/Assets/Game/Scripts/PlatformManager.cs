@@ -35,17 +35,6 @@ namespace WorldAsSupport {
             if (_isMobileAR) {
                 Debug.Log("Platform: MobileAR");
                 camera.transform.SetParent(ARGameSession.current.transform);
-                
-                // moved to DisplayProvider
-                // camera.cullingMask |= 1 << LayerMask.NameToLayer("Placeables");
-                // camera.cullingMask |= 1 << LayerMask.NameToLayer("Guide");
-                
-                // camera.fieldOfView = 60;
-                // projectorCamera.fieldOfView = ARGameSession.current.ARProjectorFOV;
-                // ARGameSession.current.ProjectorViewCamera.fieldOfView = projectorCamera.fieldOfView;
-                // projectorCamera.backgroundColor = ARGameSession.current.ARFlashlightColor;
-                
-                // reset lantern to origin of ARCamera
                 ARGameSession.current.Lantern.transform.localPosition = Vector3.zero;
                 
 
@@ -55,19 +44,6 @@ namespace WorldAsSupport {
                 // Limit the framerate to avoid annoying warnings in the console 
                 // (https://forum.unity.com/threads/jobtempalloc-has-allocations-that-are-more-than-4-frames-old.693394/)
                 Application.targetFrameRate = 30;  
-
-                // moved to DisplayProvider
-                // camera.cullingMask &=  ~(1 << LayerMask.NameToLayer("Placeables"));
-                // camera.cullingMask &=  ~(1 << LayerMask.NameToLayer("Guide"));
-                // camera.fieldOfView = 80;
-                // projectorCamera.fieldOfView = ARGameSession.current.VirtualProjector.fieldOfView;
-                // projectorCamera.transform.localRotation = Quaternion.Euler(0, 0, 0);
-                // projectorCamera.backgroundColor = Color.black;
-                // ARGameSession.current.ProjectorViewCamera.fieldOfView = 60;
-                
-                // moved to DisplayProvider
-                // RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
-                // RenderSettings.ambientLight = Color.black;
             }
             camera.GetComponent<ARCameraManager>().enabled = _isMobileAR;
             camera.GetComponent<ARCameraBackground>().enabled = _isMobileAR;
@@ -82,14 +58,10 @@ namespace WorldAsSupport {
 
             ARGameSession.current.Player.gameObject.SetActive(!_isMobileAR);
             
-            // moved to DisplayProvider
-            // ARGameSession.current.Flashlight.gameObject.SetActive(_isMobileAR);
-            // ARGameSession.current.ProjectorViewCamera.gameObject.SetActive(!_isMobileAR);
-            
             #if UNITY_EDITOR
-                ARGameSession.current.DisplayProvider.SetVirtualProjectorActive(false);
+                DisplayProvider.current.SetVirtualProjectorActive(false);
             #else
-                ARGameSession.current.DisplayProvider.SetVirtualProjectorActive(!_isMobileAR);
+                DisplayProvider.current.SetVirtualProjectorActive(!_isMobileAR);
             #endif
 
             GameObject[] objects = GameObject.FindGameObjectsWithTag("Staging");

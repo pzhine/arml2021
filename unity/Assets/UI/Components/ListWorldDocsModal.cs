@@ -47,7 +47,30 @@ namespace WorldAsSupport {
         }
 
         public void OnItemPressed() {
-            ARGameSession.current.WorldDoc = m_WorldDoc;
+            RemoteProvider rp = RemoteProvider.current;
+            if (rp.Role == RemoteProviderRole.Sender &&
+                rp.Status == RemoteProviderStatus.Connected
+            ) {
+                // dispatch the command
+            #if !UNITY_EDITOR && UNITY_IOS
+                rp.CommandDispatcher.LoadWorldDoc(
+                    m_WorldDoc.Data,
+                    m_WorldDoc.CurrentVersion.Data,
+                    m_WorldDoc.WorldMapBytes
+                );
+            #else 
+                rp.CommandDispatcher.LoadWorldDoc(
+                    m_WorldDoc.Data,
+                    m_WorldDoc.CurrentVersion.Data,
+                    null,
+                    m_WorldDoc.FakeWorldMap
+                );
+            #endif
+
+            } else {
+                // ARGameSession.current.WorldDoc = m_WorldDoc;
+                WorldSceneLoader.current.LoadSceneWithWorldDoc(m_WorldDoc);
+            }
             ARGameSession.current.DismissAllModals();
         }
 
