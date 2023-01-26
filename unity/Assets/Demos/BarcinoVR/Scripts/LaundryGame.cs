@@ -2,23 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WorldAsSupport
-{
+namespace WorldAsSupport {
     public class LaundryGame : InteractableGame
     {
         //most of the functions are from the old scripts: TowelBehaviour and ClothesManager
         enum LaundryGameStages
-        {
-            GRAB_STICK = 0,
-            MIXING = 1,
-            GRAB_CLOTH = 2,
-            HANGING = 3,
-        }
+            {
+                GRAB_STICK = 0,
+                MIXING = 1,
+                GRAB_CLOTH = 2,
+                HANGING = 3,     
+            }
 
         LaundryGameStages currentStage;
         private GameObject hanger_to_drop;
         public InteractableItem stick;
         public List<InteractableItem> clothList;
+        public float total_mixing_distance = 20.0f;
+        public RaycastHit? local_hit = RaycastProvider.hit;
 
         protected float startInteractionZoneTime;
 
@@ -34,38 +35,33 @@ namespace WorldAsSupport
             secondToThird();
         }
 
-        protected override void Grabbed(InteractableItem cloth)
+        protected override void Grabbed(InteractableItem cloth) 
         {
             cloth.IsInteracting = true;
-            if (currentStage == LaundryGameStages.GRAB_CLOTH)
-            {
+            if (currentStage == LaundryGameStages.GRAB_CLOTH){
                 thirdToFourth(cloth);
-            }
-            else
-            {
+            }else{
                 firstToSecond();
             }
         }
 
-        protected override void Dropped(InteractableItem hanger)
+        protected override void Dropped(InteractableItem hanger) 
         {
             fourthToEnd(hanger);
         }
 
-        protected override List<InteractionType> AvailableInteractionTypes()
-        {
-            switch (currentStage)
-            {
+        protected override List<InteractionType> AvailableInteractionTypes(){
+            switch(currentStage){
                 case LaundryGameStages.GRAB_STICK:
-                    return new List<InteractionType>() { InteractionType.Grabbable };
+                    return new List<InteractionType>(){InteractionType.Grabbable};
                 case LaundryGameStages.MIXING:
-                    return new List<InteractionType>() { InteractionType.InteractionZone };
+                    return new List<InteractionType>(){InteractionType.InteractionZone};
                 case LaundryGameStages.GRAB_CLOTH:
-                    return new List<InteractionType>() { InteractionType.Grabbable };
+                    return new List<InteractionType>(){InteractionType.Grabbable};
                 case LaundryGameStages.HANGING:
-                    return new List<InteractionType>() { InteractionType.Droppable };
+                    return new List<InteractionType>(){InteractionType.Droppable};
                 default:
-                    return new List<InteractionType>() { };
+                    return new List<InteractionType>(){};
             }
         }
 
@@ -74,6 +70,29 @@ namespace WorldAsSupport
             cloth.States[0].SetActive(a);
             cloth.States[1].SetActive(b);
             cloth.States[2].SetActive(c);
+        }
+
+        public void LateUpdate()
+        {
+            if (currentStage == LaundryGameStages.MIXING){
+
+                if(!local_hit.HasValue || !RaycastProvider.hit.HasValue){
+                    local_hit = RaycastProvider.hit;
+                    return;
+                }
+
+                Vector3 distance = RaycastProvider.hit.Value.point - local_hit.Value.point;
+
+                float total_movement = System.Math.Abs(distance.x) + System.Math.Abs(distance.y) + System.Math.Abs(distance.z);
+                Debug.Log("Total Movement: " + total_movement);
+
+                local_hit = RaycastProvider.hit;
+                ARGameSession.current.chrono.speed = total_movement * 5;
+
+                total_mixing_distance -= total_movement;
+                Debug.Log("Distance Needed: " + total_mixing_distance);
+            }
+            
         }
 
         private void startFirst()
@@ -90,17 +109,22 @@ namespace WorldAsSupport
                 changeActivation(cloth, true, false, false); //just activate the first towel
             }
             currentStage = LaundryGameStages.GRAB_STICK;
-            grabbableList = new List<InteractableItem>() { stick };
+            grabbableList = new List<InteractableItem>(){stick};
         }
-        public void firstToSecond()
+        public void firstToSecond() 
         {
             Debug.Log("[firstToSecond]: We are in firstToSecond");
             currentStage = LaundryGameStages.MIXING;
         }
-
+        
         protected void secondToThird()
         {
             Debug.Log("[secondToThird]: We are in secondToThird");
+            
+            while(total_mixing_distance > 0){
+                secondToThird();
+            }
+
             currentStage = LaundryGameStages.GRAB_CLOTH;
             grabbableList = new List<InteractableItem>(clothList);
             CurrentGrabbed.gameObject.SetActive(false);
@@ -111,6 +135,7 @@ namespace WorldAsSupport
         protected void thirdToFourth(InteractableItem cloth)
         {
             currentStage = LaundryGameStages.HANGING;
+            ARGameSession.current.chrono.speed = 1.0f;
             Debug.Log("[thirdToFourth]: We are in thirdToFourth");
             cloth.IsInteracting = true;
 
@@ -190,7 +215,7 @@ namespace WorldAsSupport
 
             // activate third towel state
             CurrentGrabbed.States[2].GetComponent<Cloth>().capsuleColliders = cc;
-            if (CurrentGrabbed.States[2].transform.Find("Cloth 2 bottom"))
+            if(CurrentGrabbed.States[2].transform.Find("Cloth 2 bottom"))
             {
                 CurrentGrabbed.States[2].transform.Find("Cloth 2 bottom").GetComponent<Cloth>().capsuleColliders = cc;
             }
@@ -205,7 +230,7 @@ namespace WorldAsSupport
 
             CurrentGrabbed.transform.rotation = hanger_to_drop.transform.rotation;
             CurrentGrabbed.transform.Rotate(90, 0, 0);
-
+            
 
             CurrentGrabbed.transform.parent = hanger_to_drop.transform;
             //float y = hanger_to_drop.transform.rotation.eulerAngles.y;
@@ -214,7 +239,7 @@ namespace WorldAsSupport
 
             CurrentGrabbed.transform.parent = oldTransform;
             CurrentGrabbed.transform.localScale = oldScale;
-
+            
             /*
             CurrentGrabbed.transform.localRotation = Quaternion.Euler(
                 CurrentGrabbed.transform.localRotation.eulerAngles.x,
@@ -259,8 +284,8 @@ namespace WorldAsSupport
             Debug.Log("Cloth rotation: " + CurrentGrabbed.transform.rotation.eulerAngles);
             hanger_to_drop = null;
             */
-
+            
         }
 
-    }
+    } 
 }

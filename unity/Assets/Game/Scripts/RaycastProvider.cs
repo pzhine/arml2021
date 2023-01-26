@@ -8,6 +8,7 @@ namespace WorldAsSupport {
         public static GameObject currentTarget;
         private static GameObject currentTargetPrevious;
         public static InteractableGame CurrentGame; //new version
+        public static RaycastHit? hit;
 
         public static Vector3? GetFirstFeatureHit(Vector2 touchPosition) {
             ARGameSession game = ARGameSession.current;
@@ -61,7 +62,7 @@ namespace WorldAsSupport {
         }
 
         public static GameObject GetCenterGameObject(LayerMask layerMask) {
-            RaycastHit? hit = GetFirstHit(layerMask);
+            hit = GetFirstHit(layerMask);
             
             if (hit.HasValue && ARGameSession.current.CurrentMode == AppMode.Game) { //only detect the Object if we are in the Game mode
                 return hit.Value.collider.gameObject;

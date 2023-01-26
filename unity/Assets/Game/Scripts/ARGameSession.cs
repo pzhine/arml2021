@@ -32,8 +32,6 @@ namespace WorldAsSupport {
         
         // ARFoundation instance references
         
-        public Animator chrono;
-        
         private ARRaycastManager m_RaycastManager;
         public ARRaycastManager RaycastManager {
             get {
@@ -257,6 +255,8 @@ namespace WorldAsSupport {
                 }
             }
         }
+
+        public Animator chrono;
 
         // Target Canvas
         [HideInInspector]
