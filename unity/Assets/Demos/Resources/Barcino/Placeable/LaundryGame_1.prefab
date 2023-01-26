@@ -195,11 +195,13 @@ MonoBehaviour:
   - {fileID: 3423826870439678742}
   InteractionZoneItems:
   - {fileID: 8964604375901481893}
-  - {fileID: 8078897202505020306}
   CurrentGrabbed: {fileID: 0}
   CarryingItemDistanceToCamera: 1.5
   speed: 3
   VecCarryingPosition: {x: 0, y: 0.3, z: 0}
+  stick: {fileID: 8078897202505020306}
+  clothList:
+  - {fileID: 5319365184768942599}
 --- !u!114 &-25195359628656016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -419,7 +421,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b933c7ce197a41d29d189c2bc880432, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  States: []
+  States:
+  - {fileID: 6794899971635275120}
   InteractionEnabled: 1
 --- !u!114 &8078897202505020307
 MonoBehaviour:

@@ -31,6 +31,9 @@ namespace WorldAsSupport {
         public bool IsInitialized = false;
         
         // ARFoundation instance references
+        
+        public Animator chrono;
+        
         private ARRaycastManager m_RaycastManager;
         public ARRaycastManager RaycastManager {
             get {

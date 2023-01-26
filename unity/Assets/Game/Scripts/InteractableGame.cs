@@ -52,7 +52,6 @@ namespace WorldAsSupport
         protected virtual void ChildStart() { }
         protected virtual void ChildUpdate() { }
         protected virtual void ChildAwake() { }
-        protected virtual void secondToThird() { }
 
         protected virtual List<InteractionType> AvailableInteractionTypes()
         {
@@ -202,7 +201,6 @@ namespace WorldAsSupport
 
             if (CurrentGrabbed.transform.position == dropPosition)
             {
-                secondToThird();
                 isReleased = false;
                 CurrentGrabbed = null;
             }

@@ -68,7 +68,7 @@ namespace WorldAsSupport
 
         public void firstToSecond() { }
 
-        protected override void secondToThird()
+        protected void secondToThird()
         {
             Color mat_color = CurrentGrabbed.GetComponent<Renderer>().material.color;
             foreach (Transform child in clothes_to_drop.transform)
