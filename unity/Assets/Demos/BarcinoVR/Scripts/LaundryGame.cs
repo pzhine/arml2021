@@ -18,7 +18,8 @@ namespace WorldAsSupport {
         private GameObject hanger_to_drop;
         public InteractableItem stick;
         public List<InteractableItem> clothList;
-        public float total_mixing_distance = 20.0f;
+        private float total_mixed_distance = 0.0f;
+        public float required_mixing_distance = 100.0f;
         public RaycastHit? local_hit = RaycastProvider.hit;
 
         protected float startInteractionZoneTime;
@@ -76,23 +77,31 @@ namespace WorldAsSupport {
         {
             if (currentStage == LaundryGameStages.MIXING){
 
-                if(!local_hit.HasValue || !RaycastProvider.hit.HasValue){
-                    local_hit = RaycastProvider.hit;
-                    return;
+                if (total_mixed_distance < required_mixing_distance){
+                    if(RaycastProvider.currentTarget?.GetComponent<InteractableItem>()?.CanInteract == InteractionType.InteractionZone){
+
+                        ARGameSession.current.chrono.Play(0,0, (total_mixed_distance / required_mixing_distance) % 1);
+                        ARGameSession.current.chrono.StopPlayback();
+
+                        if(!local_hit.HasValue || !RaycastProvider.hit.HasValue){
+                            local_hit = RaycastProvider.hit;
+                            return;
+                        }
+
+                        Vector3 distance = RaycastProvider.hit.Value.point - local_hit.Value.point;
+
+                        float total_movement = System.Math.Abs(distance.x) + System.Math.Abs(distance.y) + System.Math.Abs(distance.z);
+
+                        local_hit = RaycastProvider.hit;
+                        ARGameSession.current.chrono.speed = total_movement * 5;
+
+                        total_mixed_distance += total_movement * 5; 
+                        Debug.Log("Distance Needed: " + (required_mixing_distance - total_mixed_distance));
+                    }
+                }else{
+                    secondToThird();
                 }
-
-                Vector3 distance = RaycastProvider.hit.Value.point - local_hit.Value.point;
-
-                float total_movement = System.Math.Abs(distance.x) + System.Math.Abs(distance.y) + System.Math.Abs(distance.z);
-                Debug.Log("Total Movement: " + total_movement);
-
-                local_hit = RaycastProvider.hit;
-                ARGameSession.current.chrono.speed = total_movement * 5;
-
-                total_mixing_distance -= total_movement;
-                Debug.Log("Distance Needed: " + total_mixing_distance);
             }
-            
         }
 
         private void startFirst()
@@ -119,17 +128,13 @@ namespace WorldAsSupport {
         
         protected void secondToThird()
         {
+            audioSource.PlayOneShot(Resources.Load<AudioClip>("Barcino/Sounds/correct_sound"));
             Debug.Log("[secondToThird]: We are in secondToThird");
-            
-            while(total_mixing_distance > 0){
-                secondToThird();
-            }
-
             currentStage = LaundryGameStages.GRAB_CLOTH;
             grabbableList = new List<InteractableItem>(clothList);
             CurrentGrabbed.gameObject.SetActive(false);
             CurrentGrabbed = null;
-
+            ARGameSession.current.chrono.speed = 1;
         }
 
         protected void thirdToFourth(InteractableItem cloth)

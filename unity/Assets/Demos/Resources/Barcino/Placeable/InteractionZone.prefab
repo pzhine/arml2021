@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5834091396939930918}
   - component: {fileID: 8182442026388205846}
-  - component: {fileID: 4849556988032762910}
   - component: {fileID: 5795882173169205705}
+  - component: {fileID: 3498176301994623832}
   m_Layer: 9
   m_Name: InteractionZone
   m_TagString: Untagged
@@ -51,19 +51,6 @@ MonoBehaviour:
   IsWaypoint: 0
   WasSeen: 0
   IsInstance: 0
---- !u!65 &4849556988032762910
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7398713730048110389}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 7, y: 7, z: 1}
-  m_Center: {x: -6.4461186e-11, y: 0, z: -0.03556423}
 --- !u!114 &5795882173169205705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78,6 +65,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   States: []
   InteractionEnabled: 1
+--- !u!135 &3498176301994623832
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7398713730048110389}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 3.4840443
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &205946391481756949
 PrefabInstance:
   m_ObjectHideFlags: 0
