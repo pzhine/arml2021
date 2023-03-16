@@ -26,8 +26,33 @@ namespace WorldAsSupport
         private float fermentationSpeed = 0.1f;
         //----------------------------------------
 
+        enum GarumGameStages
+            {
+                GRAB_INGREDIENTS = 0,
+                DROP_INGREDIENTS = 1,
+                GRAB_STICK = 2,
+                MIXING = 3, 
+            }
 
+        GarumGameStages currentStage;
+        public InteractableItem stick;
+        public RaycastHit? local_hit = RaycastProvider.hit;
+        public int ingredients_remaining = 3;
 
+        protected override List<InteractionType> AvailableInteractionTypes(){
+            switch(currentStage){
+                case GarumGameStages.GRAB_INGREDIENTS:
+                    return new List<InteractionType>(){InteractionType.Grabbable};
+                case GarumGameStages.DROP_INGREDIENTS:
+                    return new List<InteractionType>(){InteractionType.Droppable};
+                case GarumGameStages.GRAB_STICK:
+                    return new List<InteractionType>(){InteractionType.Grabbable};
+                case GarumGameStages.MIXING:
+                    return new List<InteractionType>(){InteractionType.InteractionZone};
+                default:
+                    return new List<InteractionType>(){};
+            }
+        }
 
         protected override void Grabbed(InteractableItem ingredient)
         {
@@ -100,7 +125,7 @@ namespace WorldAsSupport
             CurrentGrabbed.IsInteracting = false;
 
             // Change to third state
-            //secondToThird();
+            secondToThird();
 
             Destroy(CurrentGrabbed.gameObject.GetComponent<BoxCollider>());//delete Box collider to Drop the Object
 
@@ -135,6 +160,13 @@ namespace WorldAsSupport
 
             //All right
             Debug.Log("Dropped " + recipient.name);
+
+            ingredients_remaining -= 1;
+        }
+
+        protected override void InteractionZoneComplete(InteractableItem item)
+        {
+            
         }
 
 
@@ -153,12 +185,16 @@ namespace WorldAsSupport
             ingredient.States[2].SetActive(c);
         }
 
+        public void LateUpdate(){
+            Debug.Log("[LOLOLOLOLOLOLOOOLOLOLOLOLOLOLOLOLO]" + ingredients_remaining);
+        }
+
         private void startFirst()
         {
+            Debug.Log("[startFirst]: We are in startFirst");
 
             foreach (InteractableItem ingredient in GrabbableItems)
             {
-
                 //load the ingredients from the prefabs and set its position to the parent's position
                 var a = Instantiate(ingredient.States[0], new Vector3(0, 0, 0), Quaternion.identity);
                 a.transform.parent = ingredient.transform;
@@ -168,10 +204,15 @@ namespace WorldAsSupport
 
                 changeActivation(ingredient, true, false, false); //just activate the first state of the ingredients
             }
+
+            currentStage = GarumGameStages.GRAB_INGREDIENTS;
+            grabbableList = new List<InteractableItem>(GrabbableItems){};
+
         }
 
         public void firstToSecond()
         {
+            Debug.Log("[firstToSecond]: We are in firstToSecond");
 
             var a = Instantiate(CurrentGrabbed.States[1], CurrentGrabbed.transform.position, Quaternion.identity);
             a.transform.parent = CurrentGrabbed.transform;
@@ -180,10 +221,14 @@ namespace WorldAsSupport
             CurrentGrabbed.States[1].transform.position = CurrentGrabbed.States[0].transform.position;
             CurrentGrabbed.gameObject.GetComponent<BoxCollider>().enabled = false;
             changeActivation(CurrentGrabbed, false, true, false);
+
+            currentStage = GarumGameStages.DROP_INGREDIENTS;
         }
 
         protected void secondToThird()
         {
+            Debug.Log("[secondToThird]: We are in secondToThird");
+
             var a = Instantiate(CurrentGrabbed.States[2], new Vector3(0, 0, 0), Quaternion.identity);
             a.transform.parent = CurrentGrabbed.transform;
 
@@ -194,6 +239,15 @@ namespace WorldAsSupport
             changeActivation(CurrentGrabbed, false, false, true);
 
             CurrentGrabbed.States[2].GetComponent<Rigidbody>().isKinematic = false;
+
+            if(ingredients_remaining > 0){
+                currentStage = GarumGameStages.GRAB_INGREDIENTS;
+            }else{
+                currentStage = GarumGameStages.GRAB_STICK;
+                Debug.Log("[LOLOLOLOLOLOLOOOLOLOLOLOLOLOLOLOLO]: We are in secondToThird");
+
+            }
+
         }
         //---------------------------------------------------------------------------------------------------------------------------
 
