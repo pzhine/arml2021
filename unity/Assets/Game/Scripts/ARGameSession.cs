@@ -18,74 +18,92 @@ using UnityEngine.XR.ARKit;
 ///
 /// Place on an ARSessionOrigin Game Object.
 /// </summary>
-namespace WorldAsSupport {
+namespace WorldAsSupport
+{
     public enum AppState { Root, Place, Transform };
     public enum AppMode { Game, Editor }
     public enum Actions { Exploration, SeeingPlaceable, Observation, Grab, Drop }
 
-    public class ARGameSession : MonoBehaviour {
+    public class ARGameSession : MonoBehaviour
+    {
         // singleton instance
         public static ARGameSession current;
 
         // Scene management
         public bool IsInitialized = false;
-        
+
         // ARFoundation instance references
-        
+
         private ARRaycastManager m_RaycastManager;
-        public ARRaycastManager RaycastManager {
-            get {
+        public ARRaycastManager RaycastManager
+        {
+            get
+            {
                 return m_RaycastManager;
             }
         }
 
         private ARAnchorManager m_AnchorManager;
-        public ARAnchorManager AnchorManager {
-            get {
+        public ARAnchorManager AnchorManager
+        {
+            get
+            {
                 return m_AnchorManager;
             }
         }
 
         private ARSession m_ARSession;
-        public ARSession ARSession {
-            get {
+        public ARSession ARSession
+        {
+            get
+            {
                 return m_ARSession;
             }
         }
 
         // Providers
         private AnchorProvider m_AnchorProvider;
-        public AnchorProvider AnchorProvider {
-            get {
+        public AnchorProvider AnchorProvider
+        {
+            get
+            {
                 return m_AnchorProvider;
             }
         }
 
         private PlaceableProvider m_PlaceableProvider;
-        public PlaceableProvider PlaceableProvider {
-            get {
+        public PlaceableProvider PlaceableProvider
+        {
+            get
+            {
                 return m_PlaceableProvider;
             }
         }
 
         private LanguageProvider m_LanguageProvider;
-        public LanguageProvider LanguageProvider {
-            get {
+        public LanguageProvider LanguageProvider
+        {
+            get
+            {
                 return m_LanguageProvider;
             }
         }
 
         private WaypointProvider m_WaypointProvider;
-        public WaypointProvider WaypointProvider {
-            get {
+        public WaypointProvider WaypointProvider
+        {
+            get
+            {
                 return m_WaypointProvider;
             }
         }
 
         // parent for all Magic Lantern components
         private GameObject m_Lantern;
-        public GameObject Lantern {
-            get {
+        public GameObject Lantern
+        {
+            get
+            {
                 return m_Lantern;
             }
         }
@@ -95,15 +113,21 @@ namespace WorldAsSupport {
         // Item Editor state fields
         [HideInInspector]
         private PlaceableItem m_ItemToPlace;
-        public PlaceableItem ItemToPlace {
-            get {
+        public PlaceableItem ItemToPlace
+        {
+            get
+            {
                 return m_ItemToPlace;
             }
-            set {
+            set
+            {
                 m_ItemToPlace = value;
-                if (value != null) {
+                if (value != null)
+                {
                     CurrentState = AppState.Place;
-                } else {
+                }
+                else
+                {
                     CurrentState = AppState.Root;
                 }
             }
@@ -111,18 +135,21 @@ namespace WorldAsSupport {
 
         [HideInInspector]
         private bool m_DesktopInputEnabled = true;
-        public bool DesktopInputEnabled {
-            get {
-            #if UNITY_IOS && !UNITY_EDITOR
+        public bool DesktopInputEnabled
+        {
+            get
+            {
+#if UNITY_IOS && !UNITY_EDITOR
                 return false;
-            #endif
+#endif
                 return m_DesktopInputEnabled;
             }
         }
 
         [HideInInspector]
         private UserData m_CurrentData;
-        public UserData CurrentData {
+        public UserData CurrentData
+        {
             get
             {
                 return m_CurrentData;
@@ -135,16 +162,19 @@ namespace WorldAsSupport {
 
         [HideInInspector]
         private WorldDoc m_WorldDoc;
-        public WorldDoc WorldDoc {
-            get {
+        public WorldDoc WorldDoc
+        {
+            get
+            {
                 return m_WorldDoc;
             }
-            set {
+            set
+            {
                 string previousId = m_WorldDoc?.Data?._id;
 
                 m_WorldDoc = value;
                 WorldDocNameLabel.text = value.Data.name;
-                
+
                 // reset the world
                 // ResetWorld();
 
@@ -154,7 +184,7 @@ namespace WorldAsSupport {
                 // SceneManager.LoadScene(Scene.name);
 
                 // load WorldMap if it exists
-            #if !UNITY_EDITOR && UNITY_IOS
+#if !UNITY_EDITOR && UNITY_IOS
                 ARKitSessionSubsystem subsystem = (ARKitSessionSubsystem)ARSession.subsystem;
                 // subsystem.Reset();
                 
@@ -169,35 +199,43 @@ namespace WorldAsSupport {
                     subsystem.ApplyWorldMap(m_WorldDoc.WorldMap);
                     DisplayProvider.current.SetPlaceableOcclusionMaterial(DisplayProvider.current.SecondaryDisplayActive);
                 }
-            #else
-                if (m_WorldDoc.FakeWorldMap != null) {
+#else
+                if (m_WorldDoc.FakeWorldMap != null)
+                {
                     AnchorProvider.ApplyFakeWorldMap(m_WorldDoc.FakeWorldMap);
                     DisplayProvider.current.SetPlaceableOcclusionMaterial(DisplayProvider.current.VirtualProjectorActive);
                 }
-            #endif
+#endif
             }
         }
 
         [HideInInspector]
         private PlaceableItem m_ItemToEdit;
-        public PlaceableItem ItemToEdit {
-            get {
+        public PlaceableItem ItemToEdit
+        {
+            get
+            {
                 return m_ItemToEdit;
             }
-            set {
+            set
+            {
                 // unselect old ItemToEdit
-                if (m_ItemToEdit != null) {
+                if (m_ItemToEdit != null)
+                {
                     m_ItemToEdit.isSelected = false;
                 }
                 m_ItemToEdit = value;
 
-                if (value != null) {
+                if (value != null)
+                {
                     // select new ItemToEdit
                     m_ItemToEdit.isSelected = true;
 
                     // set ItemEditorState to transform
                     CurrentState = AppState.Transform;
-                } else {
+                }
+                else
+                {
                     // set ItemEditorState to Place
                     CurrentState = AppState.Root;
                 }
@@ -206,11 +244,14 @@ namespace WorldAsSupport {
 
         [HideInInspector]
         private AppState m_CurrentState;
-        public AppState CurrentState {
-            get {
+        public AppState CurrentState
+        {
+            get
+            {
                 return m_CurrentState;
             }
-            set {
+            set
+            {
                 m_CurrentState = value;
                 UpdateAppState();
             }
@@ -218,18 +259,24 @@ namespace WorldAsSupport {
 
         [HideInInspector]
         private AppMode m_CurrentMode;
-        public AppMode CurrentMode {
-            get {
-                return m_CurrentMode ;
+        public AppMode CurrentMode
+        {
+            get
+            {
+                return m_CurrentMode;
             }
-            set {
+            set
+            {
                 m_CurrentMode = value;
-                if (m_CurrentMode == AppMode.Game) {
+                if (m_CurrentMode == AppMode.Game)
+                {
                     // turn off anchors
                     ARCamera.cullingMask &= ~(1 << LayerMask.NameToLayer("Anchors"));
                     DismissAllModals();
                     HideAllOverlays();
-                } else {
+                }
+                else
+                {
                     // turn on anchors
                     ARCamera.cullingMask |= (1 << LayerMask.NameToLayer("Anchors"));
                     RootMenuHUD.Show();
@@ -240,16 +287,21 @@ namespace WorldAsSupport {
         [HideInInspector]
         private int m_ExitGameModeCounter = 0;
         private float m_ExitGameModeTime = 0;
-        public int ExitGameModeCounter {
-            get {
+        public int ExitGameModeCounter
+        {
+            get
+            {
                 return m_ExitGameModeCounter;
             }
-            set {
+            set
+            {
                 m_ExitGameModeCounter = value;
-                if (m_ExitGameModeCounter == 1) {
+                if (m_ExitGameModeCounter == 1)
+                {
                     m_ExitGameModeTime = Time.fixedTime;
                 }
-                if (m_ExitGameModeCounter >= 10) {
+                if (m_ExitGameModeCounter >= 10)
+                {
                     m_ExitGameModeCounter = 0;
                     CurrentMode = AppMode.Editor;
                 }
@@ -300,21 +352,23 @@ namespace WorldAsSupport {
 
         [HideInInspector]
         public Camera ProjectorCamera;
-        
+
         [HideInInspector]
         public Camera ProjectorViewCamera;
-        
+
         [HideInInspector] public Camera PlayerViewCamera;
         [HideInInspector] public Projector VirtualProjector;
 
         private Light m_Flashlight;
-        public Light Flashlight {
-            get {
+        public Light Flashlight
+        {
+            get
+            {
                 return m_Flashlight;
             }
         }
 
-        [HideInInspector] public Light StagingFlashlight; 
+        [HideInInspector] public Light StagingFlashlight;
 
         [Range(1, 179)]
         [Tooltip("FOV of the physical projector hardware")]
@@ -359,7 +413,8 @@ namespace WorldAsSupport {
         public AudioSource m_PingAudioSource;
         private float m_LastAudioPingTime;
 
-        void Awake() {
+        void Awake()
+        {
             // find/initialize managers
             m_RaycastManager = GetComponent<ARRaycastManager>();
             m_ARSession = GetComponent<ARSession>();
@@ -379,7 +434,7 @@ namespace WorldAsSupport {
             m_Flashlight = ARCamera.transform.Find("Lantern/Flashlight").GetComponent<Light>();
             m_Lantern = ARCamera.transform.Find("Lantern").gameObject;
             TargetCanvas = GameObject.Find("TargetCanvas");
-            
+
             PlayerViewCamera = ProjectorViewCamera;
             // find players
             Player = transform.Find("Player").gameObject;
@@ -392,14 +447,16 @@ namespace WorldAsSupport {
 
             // load Placeables from "Demos/Resources/**/Placeable"
             List<GameObject> gameObjects = new List<GameObject>();
-            foreach (string assetPath in PlaceableAssetPaths) {
+            foreach (string assetPath in PlaceableAssetPaths)
+            {
                 gameObjects.AddRange(Resources.LoadAll<GameObject>(assetPath));
             }
             Items = gameObjects.Select(go => go.GetComponent<PlaceableItem>()).ToArray();
-            
+
             // init Placeables Dictionary
             ItemsDict = new Dictionary<string, PlaceableItem>();
-            foreach(PlaceableItem item in Items) {
+            foreach (PlaceableItem item in Items)
+            {
                 ItemsDict[item.Label] = item;
             }
 
@@ -413,7 +470,8 @@ namespace WorldAsSupport {
             m_PingAudioSource = GetComponent<AudioSource>();
         }
 
-        void Start() {
+        void Start()
+        {
             DismissAllModals();
             HideAllOverlays();
 
@@ -425,63 +483,83 @@ namespace WorldAsSupport {
             this.IsInitialized = true;
         }
 
-        void FixedUpdate() {
-            if (WaypointProvider.GuideModeEnabled) {
+        void FixedUpdate()
+        {
+            if (WaypointProvider.GuideModeEnabled)
+            {
                 UpdatePlaceableVisibility();
             }
-            if (CurrentMode == AppMode.Game) {
+            if (CurrentMode == AppMode.Game)
+            {
                 UpdateLog();
             }
         }
 
-        void LateUpdate() {
-            if (CurrentMode == AppMode.Editor) {
+        void Update()
+        {
+            if (Input.GetKeyUp(KeyCode.R))
+            {
+                ReinitializeScene();
+            }
+        }
+
+        void LateUpdate()
+        {
+            if (CurrentMode == AppMode.Editor)
+            {
                 HandleTouches();
             }
             HandleDesktopInput();
             RaycastProvider.CheckRaycast();
-            
+
             // reset ExitGameModeCounter if 4 sec has passed
             // i.e. user must tap exit corner 10 times within 4 sec to exit
             if (CurrentMode == AppMode.Game &&
-                (m_ExitGameModeCounter > 0) && 
+                (m_ExitGameModeCounter > 0) &&
                 (Time.fixedTime - m_ExitGameModeTime > 3)
-            ) {
+            )
+            {
                 m_ExitGameModeCounter = 0;
             }
 
             // send audio ping every 2 min
             int interval = 2 * 60;
-            if (Time.fixedTime - m_LastAudioPingTime > interval) {
+            if (Time.fixedTime - m_LastAudioPingTime > interval)
+            {
                 m_LastAudioPingTime = Time.fixedTime;
                 // play ping sound
                 m_PingAudioSource.Play();
             }
         }
 
-        public void HideAllOverlays() {
+        public void HideAllOverlays()
+        {
             // hide all HUD overlays
-            foreach (OverlayHUD overlayHUD in HUDCanvas.GetComponentsInChildren<OverlayHUD>()) {
+            foreach (OverlayHUD overlayHUD in HUDCanvas.GetComponentsInChildren<OverlayHUD>())
+            {
                 overlayHUD.Hide();
             }
         }
 
-        public void DismissAllModals() {
-            foreach (ModalWindow modalWindow in ModalsCanvas.GetComponentsInChildren<ModalWindow>()) {
+        public void DismissAllModals()
+        {
+            foreach (ModalWindow modalWindow in ModalsCanvas.GetComponentsInChildren<ModalWindow>())
+            {
                 modalWindow.Dismiss();
             }
         }
-        
-        private void InitUIComponents() {
+
+        private void InitUIComponents()
+        {
             HUDCanvas = GameObject.Find("HUDCanvas");
             ModalsCanvas = GameObject.Find("ModalsCanvas");
 
             // if we're building to desktop, set the canvas render modes to Overlay
-        #if !UNITY_EDITOR && !UNITY_IOS
+#if !UNITY_EDITOR && !UNITY_IOS
             HUDCanvas.GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
             ModalsCanvas.GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
-        #endif
-            
+#endif
+
             Transform ht = HUDCanvas.transform;
             Transform mt = ModalsCanvas.transform;
 
@@ -497,11 +575,14 @@ namespace WorldAsSupport {
             WorldDocNameLabel = GameObject.Find("WorldDocNameLabel").GetComponent<Text>();
         }
 
-        private void UpdatePlaceableVisibility() {
+        private void UpdatePlaceableVisibility()
+        {
             // update IsVisibleToPlayer flag on all placeables
-            foreach(PlaceableItem item in ARGameSession.current.GetPlacedItems()) {
+            foreach (PlaceableItem item in ARGameSession.current.GetPlacedItems())
+            {
                 // if it's not onscreen, we can assume false
-                if (!Utilities.IsOnscreen(PlayerViewCamera, item.gameObject)) {
+                if (!Utilities.IsOnscreen(PlayerViewCamera, item.gameObject))
+                {
                     item.IsVisibleToPlayer = false;
                     continue;
                 }
@@ -514,11 +595,27 @@ namespace WorldAsSupport {
             }
         }
 
+        public void ReinitializeScene()
+        {
+            foreach (PlaceableItem item in GetComponentsInChildren<PlaceableItem>(false))
+            {
+                Destroy(item.gameObject);
+            }
+            foreach (Anchor anchor in ARGameSession.current.WorldDoc.Anchors.Values)
+            {
+                anchor.Item.ItemInstance = null;
+            }
+            AnchorProvider.RestoreAllAnchors();
+            CurrentMode = AppMode.Editor;
+        }
+
         private Vector3 LastPositionLogged = Vector3.zero;
         private Vector3 LastRotationLogged = Vector3.zero;
-        private void UpdateLog() {
+        private void UpdateLog()
+        {
             if (ARCamera.transform.position != LastPositionLogged ||
-                ARCamera.transform.eulerAngles != LastRotationLogged) {
+                ARCamera.transform.eulerAngles != LastRotationLogged)
+            {
                 ExperimentManager.current.LogPosition(
                     ARCamera.transform.position,
                     ARCamera.transform.eulerAngles
@@ -527,106 +624,129 @@ namespace WorldAsSupport {
                 LastRotationLogged = ARCamera.transform.eulerAngles;
             }
         }
-   
+
         // Handle touches
-        void HandleTouches() {
+        void HandleTouches()
+        {
             List<Touch> touches = TouchProvider.GetTouches();
             float pinchMagnitude = TouchProvider.getPinchMagnitude();
-            if (touches.Count == 0 && pinchMagnitude == 0) {
+            if (touches.Count == 0 && pinchMagnitude == 0)
+            {
                 return;
             }
-            if (touches.Count > 0 && 
-                touches[0].phase == TouchPhase.Ended && 
+            if (touches.Count > 0 &&
+                touches[0].phase == TouchPhase.Ended &&
                 touches[0].deltaPosition == Vector2.zero
-            ) {
+            )
+            {
                 HandleSingleTouch(touches[0]);
                 return;
             }
             // If we're in Game mode, we don't handle gestures
-            if (CurrentMode == AppMode.Game) {
+            if (CurrentMode == AppMode.Game)
+            {
                 return;
             }
             HandleGesture(touches, pinchMagnitude);
         }
 
-        void HandleSingleTouch(Touch touch) {
+        void HandleSingleTouch(Touch touch)
+        {
             Vector2 touchPosition = touch.position;
             // If we're in Game mode and lower-left corner is tapped, 
             // increment counter to exit Game mode
-            if (CurrentMode == AppMode.Game && touchPosition.x < 100 && touchPosition.y < 100) {
+            if (CurrentMode == AppMode.Game && touchPosition.x < 100 && touchPosition.y < 100)
+            {
                 ExitGameModeCounter += 1;
                 return;
             }
             // See if we hit a GameObject
             GameObject gameObject = RaycastProvider.GetGameObjectHit(touchPosition, PlaceableItemLayerMask);
-            if (gameObject != null) {
+            if (gameObject != null)
+            {
                 PlaceableItem placeableItem = gameObject.GetComponentInParent<PlaceableItem>();
-                if (placeableItem != null) {
+                if (placeableItem != null)
+                {
                     ItemToEdit = placeableItem;
                 }
             }
         }
 
-        void HandleGesture(List<Touch> touches, float pinchMagnitude) {
-            if (CurrentState != AppState.Transform) {
+        void HandleGesture(List<Touch> touches, float pinchMagnitude)
+        {
+            if (CurrentState != AppState.Transform)
+            {
                 return;
             }
             // we should already have an ItemToEdit set
             ItemToEdit.HandleTouches(touches, pinchMagnitude);
         }
 
-        void HandleDesktopInput() {
-            if (Input.GetKeyDown(KeyCode.LeftShift)) {
+        void HandleDesktopInput()
+        {
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
                 m_DesktopInputEnabled = !m_DesktopInputEnabled;
             }
         }
 
         // Get placed PlaceableItems
-        public PlaceableItem[] GetPlacedItems() {
+        public PlaceableItem[] GetPlacedItems()
+        {
             List<PlaceableItem> placed = new List<PlaceableItem>();
             placed.AddRange(GetComponentsInChildren<PlaceableItem>(false));
-            foreach(GameObject go in GameObject.FindGameObjectsWithTag("StagingPlaceables")) {
+            foreach (GameObject go in GameObject.FindGameObjectsWithTag("StagingPlaceables"))
+            {
                 placed.AddRange(go.GetComponentsInChildren<PlaceableItem>(false));
             }
             return placed.ToArray();
         }
 
         // Handle Item Editor state changes
-        private void UpdateAppState() {
+        private void UpdateAppState()
+        {
             HideAllOverlays();
 
-            switch (CurrentState) {
-                case AppState.Root: {
-                    RootMenuHUD.Show();
-                    return;
-                }
-                case AppState.Place: {
-                    PlaceableHUD.Show();
-                    return;
-                }
-                case AppState.Transform: {
-                    TransformHUD.Show();
-                    return;
-                }
+            switch (CurrentState)
+            {
+                case AppState.Root:
+                    {
+                        RootMenuHUD.Show();
+                        return;
+                    }
+                case AppState.Place:
+                    {
+                        PlaceableHUD.Show();
+                        return;
+                    }
+                case AppState.Transform:
+                    {
+                        TransformHUD.Show();
+                        return;
+                    }
             }
         }
 
         // instantiate item from Placeables inventory (ItemsDict), or move an already-instantiated item
-        public PlaceableItem InstantiatePlaceableItem(PlaceableItem item, Anchor anchor, Transform anchorTransform) {
+        public PlaceableItem InstantiatePlaceableItem(PlaceableItem item, Anchor anchor, Transform anchorTransform)
+        {
             // instantiate the item
             GameObject spawnedObject;
-            
-            if (item.IsInstance) {
+
+            if (item.IsInstance)
+            {
                 Debug.Log("Move PlaceableItem");
                 item.transform.parent = anchorTransform;
                 item.transform.position = anchorTransform.position;
                 item.transform.rotation = anchorTransform.rotation;
                 spawnedObject = item.gameObject;
-            } else {
+            }
+            else
+            {
                 Debug.Log("Instantiate PlaceableItem");
                 spawnedObject = Instantiate(
-                    item.PlaceableObject, 
-                    anchorTransform.position, 
+                    item.PlaceableObject,
+                    anchorTransform.position,
                     anchorTransform.rotation,
                     anchorTransform
                 );
@@ -635,7 +755,8 @@ namespace WorldAsSupport {
             // set IsInstance on item and all PlaceableItems within
             PlaceableItem itemInstance = spawnedObject.GetComponent<PlaceableItem>();
             itemInstance.IsInstance = true;
-            foreach (PlaceableItem child in itemInstance.GetComponentsInChildren<PlaceableItem>()) {
+            foreach (PlaceableItem child in itemInstance.GetComponentsInChildren<PlaceableItem>())
+            {
                 child.IsInstance = true;
             }
 
@@ -644,24 +765,28 @@ namespace WorldAsSupport {
 
         public void DestroyGameObject(GameObject obj) => Destroy(obj);
 
-        public void ResetWorld() {
+        public void ResetWorld()
+        {
             WaypointProvider.ResetGuideModeTimer();
             PlaceableItem[] items = GetPlacedItems();
-            foreach(PlaceableItem item in items) {
+            foreach (PlaceableItem item in items)
+            {
                 InteractableItem interactactable_child = item.gameObject.GetComponentInChildren<InteractableItem>();
-                if(interactactable_child != null){
+                if (interactactable_child != null)
+                {
                     Debug.LogWarning("RESET");
                     interactactable_child.Reset();
                 }
                 Debug.Log("[ARGameSession.ResetWorld] " + item.name);
                 Destroy(item.gameObject);
             }
-    #if !UNITY_EDITOR
+#if !UNITY_EDITOR
             ARSession.Reset();
-    #endif
+#endif
         }
 
-        public static void DumpToConsole(object obj) {
+        public static void DumpToConsole(object obj)
+        {
             var output = JsonUtility.ToJson(obj, true);
             Debug.Log(output);
         }
