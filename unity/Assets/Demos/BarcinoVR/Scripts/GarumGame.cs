@@ -201,7 +201,7 @@ namespace WorldAsSupport
                 if (mixingStageEnabled == true){
                     // if 40% or more
                     if ((!isFermenting) && (total_mixed_distance == 40.0f)) {
-                        //StartCoroutine(CreateGarum());
+                        StartCoroutine(CreateGarum());
                     }
         
                     if (total_mixed_distance < required_mixing_distance){
@@ -226,11 +226,9 @@ namespace WorldAsSupport
                             Debug.Log("Distance Needed: " + (required_mixing_distance - total_mixed_distance));
                         }
                     }else{
-                        //fifthToSixth();
+                        fifthToSixth();
                     }
                 }
-                StartCoroutine(CreateGarum());
-                fifthToSixth();
             }
         }
 
@@ -298,6 +296,10 @@ namespace WorldAsSupport
             currentStage = GarumGameStages.GRAB_STICK;
             Debug.Log("thirdToFourth: We are in thirdToFourth");
             grabbableList = new List<InteractableItem>(){stick};
+
+            /////////////////////
+            StartCoroutine(CreateGarum());
+            fifthToSixth();
         }
 
         protected void fourthToFifth()
