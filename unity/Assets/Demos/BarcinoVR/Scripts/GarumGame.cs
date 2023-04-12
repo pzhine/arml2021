@@ -31,13 +31,16 @@ namespace WorldAsSupport
                 GRAB_INGREDIENTS = 0,
                 DROP_INGREDIENTS = 1,
                 GRAB_STICK = 2,
-                MIXING = 3, 
+                MIXING = 3,
+                FINISHED = 4,
             }
 
         GarumGameStages currentStage;
         public InteractableItem stick;
         public RaycastHit? local_hit = RaycastProvider.hit;
         public int ingredients_remaining = 3;
+        private float total_mixed_distance = 0.0f;
+        public float required_mixing_distance = 100.0f;
 
         protected override List<InteractionType> AvailableInteractionTypes(){
             switch(currentStage){
@@ -56,48 +59,50 @@ namespace WorldAsSupport
 
         protected override void Grabbed(InteractableItem ingredient)
         {
+            if (grabbableList.Contains(stick)){
+                fourthToFifth();
+            }else{
+                //change to second state
+                firstToSecond();
 
-            //change to second state
-            firstToSecond();
+                //------------------------------------Grab Action----------------------------------------
+                ingredient.IsInteracting = true;
 
-            //------------------------------------Grab Action----------------------------------------
-            ingredient.IsInteracting = true;
+                // Deactivate the gravity to be able to Grab it
+                GameObject ingredientGrabbed = ingredient.States[1];
+                ingredientGrabbed.GetComponent<Rigidbody>().isKinematic = true;
 
-            // Deactivate the gravity to be able to Grab it
-            GameObject ingredientGrabbed = ingredient.States[1];
-            ingredientGrabbed.GetComponent<Rigidbody>().isKinematic = true;
+                Camera cam = ARGameSession.current.ProjectorViewCamera;
 
-            Camera cam = ARGameSession.current.ProjectorViewCamera;
+                //transform.position maybe is CurrentGrabbed.gameObject.transform.position, but the result is the same
+                distanceToCamera = Vector3.Distance(cam.GetComponent<Transform>().position, transform.position);
 
-            //transform.position maybe is CurrentGrabbed.gameObject.transform.position, but the result is the same
-            distanceToCamera = Vector3.Distance(cam.GetComponent<Transform>().position, transform.position);
+                //particles animation
+                GameObject grabFX = GameObject.Find("GrabFX");
+                if (grabFX)
+                {
+                    grabFX.transform.position = CurrentGrabbed.transform.position;
+                    grabFX.GetComponent<ParticleSystem>().Play();
+                }
 
-            //particles animation
-            GameObject grabFX = GameObject.Find("GrabFX");
-            if (grabFX)
-            {
-                grabFX.transform.position = CurrentGrabbed.transform.position;
-                grabFX.GetComponent<ParticleSystem>().Play();
+                // Audio for Grabb
+                audioSource.PlayOneShot(Resources.Load<AudioClip>("Barcino/Sounds/correct_sound"));
+
+                // Info to do the Bring To Fix Distance of the ingredient Grabbed
+                IsBeingGrabbed = true;
+                startTime = Time.time;
+                startPosition = CurrentGrabbed.transform.position;
+
+                // Remove de Glow particles
+                if (GameObject.Find("Ingredients Jar/" + CurrentGrabbed.name + " Jar") != null)
+                {
+                    GameObject.Find("Ingredients Jar/" + CurrentGrabbed.name + " Jar").gameObject.GetComponentInChildren<ParticleSystem>().Stop();
+                }
+
+
+                //All right
+                Debug.Log("Grabbed " + ingredient.name);
             }
-
-            // Audio for Grabb
-            audioSource.PlayOneShot(Resources.Load<AudioClip>("Barcino/Sounds/correct_sound"));
-
-            // Info to do the Bring To Fix Distance of the ingredient Grabbed
-            IsBeingGrabbed = true;
-            startTime = Time.time;
-            startPosition = CurrentGrabbed.transform.position;
-
-            // Remove de Glow particles
-            if (GameObject.Find("Ingredients Jar/" + CurrentGrabbed.name + " Jar") != null)
-            {
-                GameObject.Find("Ingredients Jar/" + CurrentGrabbed.name + " Jar").gameObject.GetComponentInChildren<ParticleSystem>().Stop();
-            }
-
-
-            //All right
-            Debug.Log("Grabbed " + ingredient.name);
-
         }
 
         protected override void Dropped(InteractableItem recipient)
@@ -123,9 +128,6 @@ namespace WorldAsSupport
 
             CurrentGrabbed.GetComponent<BoxCollider>().enabled = false;
             CurrentGrabbed.IsInteracting = false;
-
-            // Change to third state
-            secondToThird();
 
             Destroy(CurrentGrabbed.gameObject.GetComponent<BoxCollider>());//delete Box collider to Drop the Object
 
@@ -162,6 +164,12 @@ namespace WorldAsSupport
             Debug.Log("Dropped " + recipient.name);
 
             ingredients_remaining -= 1;
+            
+            if (ingredients_remaining == 0){
+                
+            }
+            // Change to third state
+            secondToThird();
         }
 
         protected override void InteractionZoneComplete(InteractableItem item)
@@ -186,7 +194,36 @@ namespace WorldAsSupport
         }
 
         public void LateUpdate(){
-            Debug.Log("[LOLOLOLOLOLOLOOOLOLOLOLOLOLOLOLOLO]" + ingredients_remaining);
+            Debug.Log("Ingredients Remaining: " + ingredients_remaining);
+
+            if (currentStage == GarumGameStages.MIXING){
+    
+                if (total_mixed_distance < required_mixing_distance){
+                    if(RaycastProvider.currentTarget?.GetComponent<InteractableItem>()?.CanInteract == InteractionType.InteractionZone){
+                        Debug.Log("ahora tamo aqui");
+                        ARGameSession.current.chrono.Play(0,0, (total_mixed_distance / required_mixing_distance) % 1);
+                        ARGameSession.current.chrono.StopPlayback();
+
+                        if(!local_hit.HasValue || !RaycastProvider.hit.HasValue){
+                            local_hit = RaycastProvider.hit;
+                            return;
+                        }
+
+                        Vector3 distance = RaycastProvider.hit.Value.point - local_hit.Value.point;
+
+                        float total_movement = System.Math.Abs(distance.x) + System.Math.Abs(distance.y) + System.Math.Abs(distance.z);
+
+                        local_hit = RaycastProvider.hit;
+                        ARGameSession.current.chrono.speed = total_movement * 5;
+
+                        total_mixed_distance += total_movement * 5; 
+                        Debug.Log("Distance Needed: " + (required_mixing_distance - total_mixed_distance));
+                    }
+                }else{
+                    fifthToSixth();
+                    Debug.Log("vamOsOSOSOSosos");
+                }
+            }
         }
 
         private void startFirst()
@@ -243,12 +280,30 @@ namespace WorldAsSupport
             if(ingredients_remaining > 0){
                 currentStage = GarumGameStages.GRAB_INGREDIENTS;
             }else{
-                currentStage = GarumGameStages.GRAB_STICK;
-                Debug.Log("[LOLOLOLOLOLOLOOOLOLOLOLOLOLOLOLOLO]: We are in secondToThird");
-
+                thirdToFourth();
             }
 
         }
+
+        protected void thirdToFourth()
+        {
+            currentStage = GarumGameStages.GRAB_STICK;
+            Debug.Log("thirdToFourth: We are in thirdToFourth");
+            grabbableList = new List<InteractableItem>(){stick};
+        }
+
+        protected void fourthToFifth()
+        {
+            currentStage = GarumGameStages.MIXING;
+            Debug.Log("fourthToFifth: We are in fourthToFifth");
+        }
+
+        protected void fifthToSixth()
+        {
+            currentStage = GarumGameStages.FINISHED;
+            Debug.Log("fourthToFifth: We are in fifthToSixth");
+        }
+
         //---------------------------------------------------------------------------------------------------------------------------
 
 
@@ -311,32 +366,35 @@ namespace WorldAsSupport
                 gameMode = true;
             }
 
+            if (currentStage == GarumGameStages.FINISHED){
 
-            if (collectedIngredients.Contains("Fish") && collectedIngredients.Contains("Salt") && collectedIngredients.Contains("Herbs"))
-            {
-                //hintsWall.transform.Find("Text_Weeks").gameObject.GetComponent<TextMesh>().text = "0 weeks";
+                if (collectedIngredients.Contains("Fish") && collectedIngredients.Contains("Salt") && collectedIngredients.Contains("Herbs"))
+                {
+                    //hintsWall.transform.Find("Text_Weeks").gameObject.GetComponent<TextMesh>().text = "0 weeks";
 
-                // Activate the text fot Pass Weeks
-                GameObject.Find("Text_Weeks").gameObject.GetComponent<Renderer>().enabled = true;
+                    // Activate the text fot Pass Weeks
+                    GameObject.Find("Text_Weeks").gameObject.GetComponent<Renderer>().enabled = true;
 
-                // Deactivate the Glow Particles of the recipient
-                GameObject.FindWithTag("Recipient").GetComponentInChildren<ParticleSystem>().Stop();//parar el glow del recipiente
+                    // Deactivate the Glow Particles of the recipient
+                    GameObject.FindWithTag("Recipient").GetComponentInChildren<ParticleSystem>().Stop();//parar el glow del recipiente
 
 
-                Renderer[] renderers = GameObject.Find("Text_Gratz").gameObject.GetComponentsInChildren<Renderer>();
-                foreach (Renderer renderer in renderers)
-                    renderer.enabled = true;
-                GameObject.Find("Text_IngredMissing").gameObject.GetComponent<Renderer>().enabled = false;
-                StartCoroutine(CreateGarum());
-                collectedIngredients.Clear();
-            }
-            if (isFermenting)
-            {
-                Ferment();
-                int weeksPassed = (int)((Time.time - startTimeRecipient) * fermentationSpeed * 15);
-                string weekMeshPath = "Barcino/Imports/GarumGame/Hints Wall/" + weeksPassed.ToString() + " weeks";
-                GameObject.Find("Text_Weeks").GetComponent<MeshFilter>().mesh = Resources.Load<Mesh>(weekMeshPath);
-                //hintsWall.transform.Find("Text_Time").gameObject.GetComponent<TextMesh>().text = weekString;
+                    Renderer[] renderers = GameObject.Find("Text_Gratz").gameObject.GetComponentsInChildren<Renderer>();
+                    foreach (Renderer renderer in renderers)
+                        renderer.enabled = true;
+                    GameObject.Find("Text_IngredMissing").gameObject.GetComponent<Renderer>().enabled = false;
+                    StartCoroutine(CreateGarum());
+                    collectedIngredients.Clear();
+                }
+                if (isFermenting)
+                {
+                    Ferment();
+                    int weeksPassed = (int)((Time.time - startTimeRecipient) * fermentationSpeed * 15);
+                    string weekMeshPath = "Barcino/Imports/GarumGame/Hints Wall/" + weeksPassed.ToString() + " weeks";
+                    GameObject.Find("Text_Weeks").GetComponent<MeshFilter>().mesh = Resources.Load<Mesh>(weekMeshPath);
+                    //hintsWall.transform.Find("Text_Time").gameObject.GetComponent<TextMesh>().text = weekString;
+                }
+
             }
 
 

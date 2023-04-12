@@ -30,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7002343514363131006}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -1.0507834, y: 0.35778877, z: -2.6604714}
+  m_LocalPosition: {x: 0, y: 0, z: 0.5}
   m_LocalScale: {x: 0.043889996, y: 0.58514, z: 0.058509998}
   m_Children: []
   m_Father: {fileID: 7123572970980198741}
@@ -9645,7 +9645,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7123572969536156676}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.664, y: 1.1, z: 0}
+  m_LocalPosition: {x: -0.052, y: 1.1, z: 0.658}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7123572970980198741}
@@ -55714,7 +55714,7 @@ MonoBehaviour:
   DroppableItems:
   - {fileID: 7123572969713130509}
   InteractionZoneItems:
-  - {fileID: 5795882173169205705, guid: 65547da34e16d45d89c9b4fde1011cbb, type: 3}
+  - {fileID: 297846609728342608}
   CurrentGrabbed: {fileID: 0}
   CarryingItemDistanceToCamera: 0.5
   speed: 3
@@ -55722,6 +55722,7 @@ MonoBehaviour:
   hintsWall: []
   stick: {fileID: 1281428722089208432}
   ingredients_remaining: 3
+  required_mixing_distance: 100
 --- !u!114 &8912968548339949133
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60556,3 +60557,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 6074570610630757273}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &297846609728342608 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5795882173169205705, guid: 65547da34e16d45d89c9b4fde1011cbb,
+    type: 3}
+  m_PrefabInstance: {fileID: 6074570610630757273}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b933c7ce197a41d29d189c2bc880432, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
