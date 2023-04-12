@@ -41,6 +41,7 @@ namespace WorldAsSupport
         public int ingredients_remaining = 3;
         private float total_mixed_distance = 0.0f;
         public float required_mixing_distance = 100.0f;
+        public bool mixingStageEnabled = false;
 
         protected override List<InteractionType> AvailableInteractionTypes(){
             switch(currentStage){
@@ -197,36 +198,39 @@ namespace WorldAsSupport
             Debug.Log("Ingredients Remaining: " + ingredients_remaining);
 
             if (currentStage == GarumGameStages.MIXING){
-
-                // if 40% or more
-                if ((!isFermenting) && (total_mixed_distance == 40.0f)) {
-                    StartCoroutine(CreateGarum());
-                }
-    
-                if (total_mixed_distance < required_mixing_distance){
-                    if(RaycastProvider.currentTarget?.GetComponent<InteractableItem>()?.CanInteract == InteractionType.InteractionZone){
-
-                        ARGameSession.current.chrono.Play(0,0, (total_mixed_distance / required_mixing_distance) % 1);
-                        ARGameSession.current.chrono.StopPlayback();
-
-                        if(!local_hit.HasValue || !RaycastProvider.hit.HasValue){
-                            local_hit = RaycastProvider.hit;
-                            return;
-                        }
-
-                        Vector3 distance = RaycastProvider.hit.Value.point - local_hit.Value.point;
-
-                        float total_movement = System.Math.Abs(distance.x) + System.Math.Abs(distance.y) + System.Math.Abs(distance.z);
-
-                        local_hit = RaycastProvider.hit;
-                        ARGameSession.current.chrono.speed = total_movement * 5;
-
-                        total_mixed_distance += total_movement * 5; 
-                        Debug.Log("Distance Needed: " + (required_mixing_distance - total_mixed_distance));
+                if (mixingStageEnabled == true){
+                    // if 40% or more
+                    if ((!isFermenting) && (total_mixed_distance == 40.0f)) {
+                        //StartCoroutine(CreateGarum());
                     }
-                }else{
-                    fifthToSixth();
+        
+                    if (total_mixed_distance < required_mixing_distance){
+                        if(RaycastProvider.currentTarget?.GetComponent<InteractableItem>()?.CanInteract == InteractionType.InteractionZone){
+
+                            ARGameSession.current.chrono.Play(0,0, (total_mixed_distance / required_mixing_distance) % 1);
+                            ARGameSession.current.chrono.StopPlayback();
+
+                            if(!local_hit.HasValue || !RaycastProvider.hit.HasValue){
+                                local_hit = RaycastProvider.hit;
+                                return;
+                            }
+
+                            Vector3 distance = RaycastProvider.hit.Value.point - local_hit.Value.point;
+
+                            float total_movement = System.Math.Abs(distance.x) + System.Math.Abs(distance.y) + System.Math.Abs(distance.z);
+
+                            local_hit = RaycastProvider.hit;
+                            ARGameSession.current.chrono.speed = total_movement * 25;
+
+                            total_mixed_distance += total_movement * 25; 
+                            Debug.Log("Distance Needed: " + (required_mixing_distance - total_mixed_distance));
+                        }
+                    }else{
+                        //fifthToSixth();
+                    }
                 }
+                StartCoroutine(CreateGarum());
+                fifthToSixth();
             }
         }
 
