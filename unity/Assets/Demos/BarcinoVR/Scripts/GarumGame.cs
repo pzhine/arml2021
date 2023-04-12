@@ -197,10 +197,15 @@ namespace WorldAsSupport
             Debug.Log("Ingredients Remaining: " + ingredients_remaining);
 
             if (currentStage == GarumGameStages.MIXING){
+
+                // if 40% or more
+                if ((!isFermenting) && (total_mixed_distance == 40.0f)) {
+                    StartCoroutine(CreateGarum());
+                }
     
                 if (total_mixed_distance < required_mixing_distance){
                     if(RaycastProvider.currentTarget?.GetComponent<InteractableItem>()?.CanInteract == InteractionType.InteractionZone){
-                        Debug.Log("ahora tamo aqui");
+
                         ARGameSession.current.chrono.Play(0,0, (total_mixed_distance / required_mixing_distance) % 1);
                         ARGameSession.current.chrono.StopPlayback();
 
@@ -221,7 +226,6 @@ namespace WorldAsSupport
                     }
                 }else{
                     fifthToSixth();
-                    Debug.Log("vamOsOSOSOSosos");
                 }
             }
         }
@@ -383,7 +387,7 @@ namespace WorldAsSupport
                     foreach (Renderer renderer in renderers)
                         renderer.enabled = true;
                     GameObject.Find("Text_IngredMissing").gameObject.GetComponent<Renderer>().enabled = false;
-                    StartCoroutine(CreateGarum());
+                    // StartCoroutine(CreateGarum());
                     collectedIngredients.Clear();
                 }
                 if (isFermenting)
