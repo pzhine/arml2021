@@ -1,6 +1,7 @@
 using UnityEngine;
 using WorldAsSupport.Remote;
 using WorldAsSupport.WorldAPI;
+using Newtonsoft.Json.Converters;
 
 namespace WorldAsSupport
 {
@@ -76,6 +77,9 @@ namespace WorldAsSupport
 
         public void Awake()
         {
+            var sec = new StringEnumConverter();
+
+            Debug.Log("[RemoteProvider] awake");
             if (current != null)
             {
                 return;
@@ -105,6 +109,7 @@ namespace WorldAsSupport
 
             m_Sender.OnError += (string message) =>
             {
+                Debug.Log("[RemoteProvider] receiver error: " + message);
                 SetStatus(RemoteProviderStatus.Error, "[Remote.Sender] Error: " + message);
             };
 
