@@ -13109,7 +13109,7 @@ PrefabInstance:
     - target: {fileID: 4343570447881023206, guid: ba0493c58bcc245178efb0855ad0751b,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.00035765674
+      value: 0.00010093274
       objectReference: {fileID: 0}
     - target: {fileID: 4343570448192061182, guid: ba0493c58bcc245178efb0855ad0751b,
         type: 3}
@@ -14567,21 +14567,23 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1335839533}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 89ff516c2a492473da67ebd3f06481ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   GuidePositionLayerMask:
     serializedVersion: 2
-    m_Bits: 0
-  PlanePrefab: {fileID: 0}
-  GuidePrefabs: []
-  GuideModeDelay: 5
-  FloorDistance: 0
-  CeilingDistance: 0
-  WaypointSeenFrames: 30
-  WaypointSeenDistance: 2
+    m_Bits: 35584
+  PlanePrefab: {fileID: 945489111495740064, guid: cd3435e9ac3a14afeab5770b10afc395,
+    type: 3}
+  GuidePrefabs:
+  - {fileID: 7370975322588668767, guid: 1d689448273cd4751bdefcb616bf0ed5, type: 3}
+  GuideModeDelay: 10
+  FloorDistance: 0.9
+  CeilingDistance: 2.2
+  WaypointSeenFrames: 120
+  WaypointSeenDistance: 4.05
 --- !u!114 &1335839545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19986,7 +19988,7 @@ PrefabInstance:
     - target: {fileID: 4343570447881023206, guid: ba0493c58bcc245178efb0855ad0751b,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.00035765674
+      value: 0.00013122153
       objectReference: {fileID: 0}
     - target: {fileID: 4343570448192061182, guid: ba0493c58bcc245178efb0855ad0751b,
         type: 3}
