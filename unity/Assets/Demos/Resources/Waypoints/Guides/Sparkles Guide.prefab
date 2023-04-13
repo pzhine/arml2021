@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7370975322588668767}
   - component: {fileID: 4153552638055257668}
   m_Layer: 12
-  m_Name: sparkles
+  m_Name: Sparkles Guide
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

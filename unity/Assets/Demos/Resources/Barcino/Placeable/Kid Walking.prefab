@@ -28,7 +28,6 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
-  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9020514897663035690}
   m_Father: {fileID: 0}
@@ -375,6 +374,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 8837742508859354817}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &9020514897663035690 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0e0325c894a2b45b3b16382d91b81320,
+    type: 3}
+  m_PrefabInstance: {fileID: 8837742508859354817}
+  m_PrefabAsset: {fileID: 0}
 --- !u!95 &7022101780086113806
 Animator:
   serializedVersion: 5
@@ -395,9 +400,3 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
---- !u!4 &9020514897663035690 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0e0325c894a2b45b3b16382d91b81320,
-    type: 3}
-  m_PrefabInstance: {fileID: 8837742508859354817}
-  m_PrefabAsset: {fileID: 0}
