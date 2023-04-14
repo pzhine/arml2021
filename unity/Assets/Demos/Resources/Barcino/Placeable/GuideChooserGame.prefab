@@ -26,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3697829918380306794}
-  m_LocalRotation: {x: 0, y: 0.1145037, z: 0, w: 0.9934228}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 3.01}
   m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_Children:
@@ -35,7 +35,7 @@ Transform:
   - {fileID: 7259224667199148061}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 13.15, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3697829918380306795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,12 +72,9 @@ MonoBehaviour:
   DroppableItems: []
   InteractionZoneItems: []
   CurrentGrabbed: {fileID: 0}
-  CarryingItemDistanceToCamera: 1.5
-  speed: 3
+  CarryingItemDistanceToCamera: 0
+  speed: 0
   VecCarryingPosition: {x: 0, y: 0, z: 0}
-  arrowGuidePrefab: {fileID: 0}
-  sparklesGuidePrefab: {fileID: 0}
-  humanGuidePrefab: {fileID: 0}
 --- !u!65 &5858569629381732394
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -89,8 +86,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3.8, y: 1, z: 1.08}
-  m_Center: {x: -0.98, y: 0, z: -0.01}
+  m_Size: {x: 5.65, y: 1, z: 1.08}
+  m_Center: {x: -0.53, y: 0, z: -0.01}
 --- !u!1001 &213645413007881037
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -136,7 +133,7 @@ PrefabInstance:
     - target: {fileID: 7370975322588668752, guid: a85f73a33359f467f86b08538affb670,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.17
+      value: -1.93
       objectReference: {fileID: 0}
     - target: {fileID: 7370975322588668752, guid: a85f73a33359f467f86b08538affb670,
         type: 3}
@@ -146,7 +143,7 @@ PrefabInstance:
     - target: {fileID: 7370975322588668752, guid: a85f73a33359f467f86b08538affb670,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.16
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7370975322588668752, guid: a85f73a33359f467f86b08538affb670,
         type: 3}
@@ -217,6 +214,19 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 213645413007881037}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &6034986018554042635
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7259224667199148060}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: -1.1, y: 0.61, z: -1.2}
 --- !u!114 &5816302529324552058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -263,17 +273,17 @@ PrefabInstance:
     - target: {fileID: 6052594942387056997, guid: c5c41b22c88084e0a891f10e0e96e0cb,
         type: 3}
       propertyPath: m_Size.x
-      value: 0.8
+      value: 1.16
       objectReference: {fileID: 0}
     - target: {fileID: 6052594942387056997, guid: c5c41b22c88084e0a891f10e0e96e0cb,
         type: 3}
       propertyPath: m_Size.y
-      value: 0.32
+      value: 0.77
       objectReference: {fileID: 0}
     - target: {fileID: 6052594942387056997, guid: c5c41b22c88084e0a891f10e0e96e0cb,
         type: 3}
       propertyPath: m_Size.z
-      value: 0.94
+      value: 1.44
       objectReference: {fileID: 0}
     - target: {fileID: 6906449325080015679, guid: c5c41b22c88084e0a891f10e0e96e0cb,
         type: 3}
@@ -455,7 +465,7 @@ PrefabInstance:
     - target: {fileID: 7370975322588668752, guid: 1d689448273cd4751bdefcb616bf0ed5,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1
+      value: -0.6
       objectReference: {fileID: 0}
     - target: {fileID: 7370975322588668752, guid: 1d689448273cd4751bdefcb616bf0ed5,
         type: 3}
@@ -465,7 +475,7 @@ PrefabInstance:
     - target: {fileID: 7370975322588668752, guid: 1d689448273cd4751bdefcb616bf0ed5,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.84
+      value: -0.48
       objectReference: {fileID: 0}
     - target: {fileID: 7370975322588668752, guid: 1d689448273cd4751bdefcb616bf0ed5,
         type: 3}
