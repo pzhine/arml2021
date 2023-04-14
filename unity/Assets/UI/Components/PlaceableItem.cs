@@ -175,6 +175,9 @@ namespace WorldAsSupport {
         void InitGameObject() {
             // init outline
             m_Outline = gameObject.AddComponent<Outline>();
+            if (m_Outline == null) {
+                return;
+            }
             m_Outline.OutlineMode = Outline.Mode.OutlineAll;
             m_Outline.OutlineColor = Color.yellow;
             m_Outline.OutlineWidth = 10f;

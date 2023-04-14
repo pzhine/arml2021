@@ -128,8 +128,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Label: Amphora
   isSelected: 0
-  IsWaypoint: 0
+  IsWaypoint: 1
   WasSeen: 0
+  IsInstance: 0
 --- !u!65 &4849556988032762910
 BoxCollider:
   m_ObjectHideFlags: 0
