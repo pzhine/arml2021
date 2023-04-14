@@ -5,15 +5,18 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
-    path: Assets/Game/Scenes/ARScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 0
     path: Assets/Demos/Resources/Waypoints/Scenes/BarcinoMap_waypoints.unity
     guid: a12eb5176a89f416b9b786e4761964fc
   - enabled: 0
     path: Assets/Demos/Experiences/Scenes/BarcinoMap_Exp.unity
     guid: 24f8ef3ada2dc45e39a6482b5f1a8cd0
+  - enabled: 1
+    path: Assets/Game/Scenes/BootstrapScene.unity
+    guid: 30f3d7f6389e14699b8c7068abe02c62
+  - enabled: 1
+    path: Assets/Game/Scenes/ARScene.unity
+    guid: 99c9720ab356a0642a771bea13969a05
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: a738dd03be1ae4a918bdb919e1e91a64,
       type: 2}

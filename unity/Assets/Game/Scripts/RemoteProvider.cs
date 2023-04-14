@@ -1,7 +1,6 @@
 using UnityEngine;
 using WorldAsSupport.Remote;
 using WorldAsSupport.WorldAPI;
-using Newtonsoft.Json.Converters;
 
 namespace WorldAsSupport
 {
@@ -77,7 +76,9 @@ namespace WorldAsSupport
 
         public void Awake()
         {
-            var sec = new StringEnumConverter();
+            var c1 = new Newtonsoft.Json.Converters.StringEnumConverter();
+            var c2 = new Newtonsoft.Json.Converters.BinaryConverter();
+            var c3 = new Newtonsoft.Json.JsonSerializer();
 
             Debug.Log("[RemoteProvider] awake");
             if (current != null)
