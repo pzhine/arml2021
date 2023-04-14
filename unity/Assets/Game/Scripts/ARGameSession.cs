@@ -597,8 +597,15 @@ namespace WorldAsSupport
 
         public void ReinitializeScene()
         {
+            // turn off waypointProvider defensively
+            WaypointProvider.enabled = false;
+
+            // reset CurrentGame
+            RaycastProvider.CurrentGame = null;
+
             foreach (PlaceableItem item in GetComponentsInChildren<PlaceableItem>(false))
             {
+                item.gameObject.SetActive(false);
                 Destroy(item.gameObject);
             }
             foreach (Anchor anchor in ARGameSession.current.WorldDoc.Anchors.Values)

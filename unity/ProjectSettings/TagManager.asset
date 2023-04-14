@@ -18,6 +18,8 @@ TagManager:
   - HintSalt
   - HintHerbs
   - SparkleGuide
+  - HumanGuide
+  - ArrowGuide
   layers:
   - Default
   - TransparentFX

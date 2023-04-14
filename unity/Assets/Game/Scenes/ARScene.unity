@@ -14767,11 +14767,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GuidePositionLayerMask:
     serializedVersion: 2
-    m_Bits: 35584
+    m_Bits: 2048
+  CurrentGuideTag: 
   PlanePrefab: {fileID: 945489111495740064, guid: cd3435e9ac3a14afeab5770b10afc395,
     type: 3}
   GuidePrefabs:
   - {fileID: 7370975322588668767, guid: c5c41b22c88084e0a891f10e0e96e0cb, type: 3}
+  - {fileID: 7370975322588668767, guid: 1d689448273cd4751bdefcb616bf0ed5, type: 3}
+  - {fileID: 7370975322588668767, guid: a85f73a33359f467f86b08538affb670, type: 3}
   GuideModeDelay: 10
   FloorDistance: 0.9
   CeilingDistance: 2.2

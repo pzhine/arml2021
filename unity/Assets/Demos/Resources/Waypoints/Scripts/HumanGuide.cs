@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WorldAsSupport {
-    public class HumanGuide : MonoBehaviour {
+namespace WorldAsSupport
+{
+    public class HumanGuide : MonoBehaviour
+    {
         public float StartOffset = -1.5f;
         public float WalkRate = 0.2f;
         public float WanderTime = 1;
@@ -12,16 +14,23 @@ namespace WorldAsSupport {
         private Transform CharacterTransform;
         private Vector3 StartPos;
 
-        void Start() {
+        void Start()
+        {
             WaypointGuide = GetComponent<WaypointGuide>();
             CharacterTransform = transform.GetChild(0);
             CharacterTransform.Translate(0, 0, StartOffset);
         }
 
-        void FixedUpdate() {
+        void FixedUpdate()
+        {
+            if (gameObject == null)
+            {
+                return;
+            }
             if (WaypointGuide.HasFocus || (
                 Time.fixedTime - WaypointGuide.OffscreenTime < WanderTime
-            )) {
+            ))
+            {
                 CharacterTransform.Translate(0, 0, WalkRate);
             }
         }

@@ -301,7 +301,10 @@ namespace WorldAsSupport
             // attach the anchor and native anchor
             anchor.Item.ItemInstance.Anchor = anchor;
             anchor.NativeAnchor = arAnchor;
-            anchor.NativeId = AnchorProvider.GetAnchorKey(arAnchor);
+            if (anchor.NativeId == null)
+            {
+                anchor.NativeId = AnchorProvider.GetAnchorKey(arAnchor);
+            }
 
             // Iterate over ChildItems, if they exist
             //   find their corresponding PlaceableItem instance inside the primary PlaceableItem

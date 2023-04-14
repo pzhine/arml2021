@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6052594942387056997}
   m_Layer: 12
   m_Name: Arrow Guide
-  m_TagString: Untagged
+  m_TagString: ArrowGuide
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29,6 +29,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7603196338590155052}
   m_Father: {fileID: 0}
@@ -50,7 +51,7 @@ MonoBehaviour:
   MaxDistance: 50
   MinDistance: 0.1
   GapDistance: 0.2
-  AllowFreeFloating: 0
+  AllowFreeFloating: 1
   StayOnGround: 0
   NoCleanupIfVisible: 1
   GuideOcclusionLayerMask:
@@ -193,12 +194,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3240707202443258422}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &7603196338590155052 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 329d7bb1db1324458ab7658e478123b6,
-    type: 3}
-  m_PrefabInstance: {fileID: 3240707202443258422}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &5717943817441509193
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -217,3 +212,9 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!4 &7603196338590155052 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 329d7bb1db1324458ab7658e478123b6,
+    type: 3}
+  m_PrefabInstance: {fileID: 3240707202443258422}
+  m_PrefabAsset: {fileID: 0}
