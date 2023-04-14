@@ -20,6 +20,9 @@ namespace WorldAsSupport {
         {
             get
             {
+                if (InteractableGame == null) {
+                    return InteractionType.None;
+                }
                 return InteractionEnabled 
                     ? InteractableGame.CanItemInteract(this) 
                     : InteractionType.None;

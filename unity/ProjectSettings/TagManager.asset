@@ -17,6 +17,7 @@ TagManager:
   - HintFish
   - HintSalt
   - HintHerbs
+  - SparkleGuide
   layers:
   - Default
   - TransparentFX
