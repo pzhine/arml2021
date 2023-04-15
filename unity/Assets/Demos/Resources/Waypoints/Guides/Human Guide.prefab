@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DefaultDistance: 1.5
   MaxDistance: 5
-  MinDistance: 0.1
+  MinDistance: 1
   GapDistance: 0.5
   AllowFreeFloating: 1
   StayOnGround: 1

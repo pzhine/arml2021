@@ -33,6 +33,12 @@ namespace WorldAsSupport
             LoadingBar.current.LoadingComplete += GrabObject;
         }
 
+        void OnDestroy()
+        {
+            LoadingBar.current.LoadingComplete -= GrabObject;
+            LoadingBar.current.LoadingComplete -= DropObject;
+        }
+
 
 
         void GrabObject()

@@ -48,8 +48,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultDistance: 1.5
-  MaxDistance: 50
-  MinDistance: 0.1
+  MaxDistance: 2
+  MinDistance: 1
   GapDistance: 0.2
   AllowFreeFloating: 1
   StayOnGround: 0
@@ -57,7 +57,7 @@ MonoBehaviour:
   GuideOcclusionLayerMask:
     serializedVersion: 2
     m_Bits: 0
-  VisibilityGameObject: {fileID: 0}
+  VisibilityGameObject: {fileID: 7370975322588668753}
   RespawnDelay: 1
   CleanupDelay: 1.5
   OffscreenTime: 0
@@ -104,17 +104,17 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 329d7bb1db1324458ab7658e478123b6,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 12
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 329d7bb1db1324458ab7658e478123b6,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 12
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 329d7bb1db1324458ab7658e478123b6,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 12
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 329d7bb1db1324458ab7658e478123b6,
         type: 3}
@@ -165,6 +165,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 329d7bb1db1324458ab7658e478123b6,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -1504981713932161579, guid: 329d7bb1db1324458ab7658e478123b6,
         type: 3}

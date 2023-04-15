@@ -19,29 +19,13 @@ namespace WorldAsSupport
             ARGameSession.current.WaypointProvider.CurrentGuideTag = guide.tag;
 
             guide.transform.parent.gameObject.SetActive(false);
-
-            // HumanGuide hg = guide.GetComponent<HumanGuide>();
-            // if (hg != null){
-            //     hg.enabled = true;
-            // }
-
-            // ArrowGuide ag = guide.GetComponent<ArrowGuide>();
-            // if (ag != null){
-            //     ag.enabled = true;
-            // }
-
-            // WaypointGuide wg = guide.GetComponent<WaypointGuide>();
-            // if (wg != null && guide.gameObject.tag != "SparkleGuide"){
-            //     wg.enabled = true;
-            // }
-
         }
         protected override void Dropped(InteractableItem dropClothes)
         {
         }
-        protected override List<InteractionType> AvailableInteractionTypes()
-        {
-            return new List<InteractionType>() { InteractionType.Grabbable };
-        }
+        // protected override List<InteractionType> AvailableInteractionTypes()
+        // {
+        //     return new List<InteractionType>() { InteractionType.Grabbable };
+        // }
     }
 }
