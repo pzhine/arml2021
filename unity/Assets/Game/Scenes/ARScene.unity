@@ -14686,7 +14686,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b22b5bbf0e51f4acba279e77e7e5b617, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlaceableOcclusionMaterial: {fileID: 0}
+  PlaceableOcclusionMaterial: {fileID: 2100000, guid: 56158f0940aa4489387b8f01c79372ff,
+    type: 2}
 --- !u!114 &1335839539
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -197,7 +197,6 @@ namespace WorldAsSupport
 
                     // reset the subsystem and apply the map
                     subsystem.ApplyWorldMap(m_WorldDoc.WorldMap);
-                    DisplayProvider.current.SetPlaceableOcclusionMaterial(DisplayProvider.current.SecondaryDisplayActive);
                 }
 #else
                 if (m_WorldDoc.FakeWorldMap != null)

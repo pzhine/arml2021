@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2998078668441231201}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.361, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -166,14 +166,14 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2998078668441231201}
   serializedVersion: 8
-  lengthInSec: 2
-  simulationSpeed: 0.25
-  stopAction: 0
+  lengthInSec: 1
+  simulationSpeed: 0.5
+  stopAction: 1
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 0
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -241,7 +241,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.75
+      scalar: 0.6
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -294,7 +294,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 0
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -463,7 +463,7 @@ ParticleSystem:
     startSizeY:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.5
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -516,7 +516,7 @@ ParticleSystem:
     startSizeZ:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.5
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -726,14 +726,14 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 30
+    maxNumParticles: 25
     customEmitterVelocity: {x: 0, y: 0, z: 0}
-    size3D: 0
+    size3D: 1
     rotation3D: 0
     gravityModifier:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -787,14 +787,14 @@ ParticleSystem:
     serializedVersion: 6
     enabled: 1
     type: 4
-    angle: 13.97
+    angle: 90
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
     donutRadius: 0.2
-    m_Position: {x: 0, y: 1.13, z: 0}
-    m_Rotation: {x: 180, y: 0, z: 180}
-    m_Scale: {x: 2.56, y: 2.26, z: 4.72}
+    m_Position: {x: 0, y: 0, z: 0}
+    m_Rotation: {x: 0, y: 0, z: 0}
+    m_Scale: {x: 1, y: 1, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -992,7 +992,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 9.22
+      scalar: 5
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -1045,7 +1045,7 @@ ParticleSystem:
     rateOverDistance:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 12.3
+      scalar: 10
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -1098,7 +1098,7 @@ ParticleSystem:
     m_BurstCount: 0
     m_Bursts: []
   SizeModule:
-    enabled: 1
+    enabled: 0
     curve:
       serializedVersion: 2
       minMaxState: 1
@@ -2750,11 +2750,11 @@ ParticleSystem:
     inWorldSpace: 1
     multiplyDragByParticleSize: 1
     multiplyDragByParticleVelocity: 1
-    dampen: 1
+    dampen: 0.5
     drag:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.5
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -4889,6 +4889,7 @@ GameObject:
   - component: {fileID: 7370975322588668752}
   - component: {fileID: 7370975322588668767}
   - component: {fileID: 4153552638055257668}
+  - component: {fileID: 3792926014076837208}
   m_Layer: 12
   m_Name: Sparkles Guide
   m_TagString: SparkleGuide
@@ -4905,8 +4906,8 @@ Transform:
   m_GameObject: {fileID: 7370975322588668753}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2674203435289262875}
   m_Father: {fileID: 0}
@@ -4924,9 +4925,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9de4d19fd14c9449186522cc5ceb64bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultDistance: 2
-  MaxDistance: 3
-  MinDistance: 2
+  DefaultDistance: 1.5
+  MaxDistance: 2
+  MinDistance: 1
   GapDistance: 0.5
   AllowFreeFloating: 1
   StayOnGround: 0
@@ -4935,8 +4936,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   VisibilityGameObject: {fileID: 2998078668441231201}
-  RespawnDelay: 3
-  CleanupDelay: 5
+  RespawnDelay: 2.5
+  CleanupDelay: 0.1
   OffscreenTime: 0
   IsFreeFloating: 1
 --- !u!114 &4153552638055257668
@@ -4946,7 +4947,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7370975322588668753}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 01d16682619984d40bcc766d2d556578, type: 3}
   m_Name: 
@@ -4954,3 +4955,17 @@ MonoBehaviour:
   StartOffset: -2
   WalkRate: 0.015
   WanderTime: 3
+--- !u!114 &3792926014076837208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7370975322588668753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afebc1ba1dc0241309cab04bdd7b0260, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LerpDistance: 3
+  LerpDuration: 3

@@ -181,6 +181,7 @@ namespace WorldAsSupport
 
         public void HandleStartGame()
         {
+            DisplayProvider.current.SetPlaceableOcclusionMaterial(DisplayProvider.current.SecondaryDisplayActive);
             ARGameSession.current.CurrentMode = AppMode.Game;
         }
 

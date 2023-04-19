@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7370975322588668752}
   - component: {fileID: 7370975322588668767}
   - component: {fileID: 4153552638055257668}
+  - component: {fileID: 50099995207107239}
   m_Layer: 12
   m_Name: Human Guide
   m_TagString: HumanGuide
@@ -47,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultDistance: 1.5
-  MaxDistance: 5
+  MaxDistance: 2
   MinDistance: 1
   GapDistance: 0.5
   AllowFreeFloating: 1
@@ -57,8 +58,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   VisibilityGameObject: {fileID: 2474754023979880706}
-  RespawnDelay: 5
-  CleanupDelay: 4.5
+  RespawnDelay: 2.5
+  CleanupDelay: 1
   OffscreenTime: 0
   IsFreeFloating: 1
 --- !u!114 &4153552638055257668
@@ -68,7 +69,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7370975322588668753}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 01d16682619984d40bcc766d2d556578, type: 3}
   m_Name: 
@@ -76,6 +77,20 @@ MonoBehaviour:
   StartOffset: -0.7
   WalkRate: 0.015
   WanderTime: 3
+--- !u!114 &50099995207107239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7370975322588668753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afebc1ba1dc0241309cab04bdd7b0260, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LerpDistance: 3
+  LerpDuration: 4
 --- !u!1001 &1424549862854467155
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -117,6 +132,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7888397300545339290, guid: 26c2ceeaae8224864beee3ea9b2f2154,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7888397300545339290, guid: 26c2ceeaae8224864beee3ea9b2f2154,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7888397300545339290, guid: 26c2ceeaae8224864beee3ea9b2f2154,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7888397300545339290, guid: 26c2ceeaae8224864beee3ea9b2f2154,
         type: 3}

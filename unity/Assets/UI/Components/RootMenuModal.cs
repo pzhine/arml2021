@@ -55,6 +55,7 @@ namespace WorldAsSupport
             }
             else
             {
+                DisplayProvider.current.SetPlaceableOcclusionMaterial(DisplayProvider.current.SecondaryDisplayActive);
                 ARGameSession.current.CurrentMode = AppMode.Game;
             }
         }

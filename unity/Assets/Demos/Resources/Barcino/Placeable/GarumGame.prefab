@@ -175,7 +175,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1268250517478007278}
   - component: {fileID: 1918802035230837536}
-  m_Layer: 15
+  m_Layer: 9
   m_Name: Fermentation
   m_TagString: Recipient
   m_Icon: {fileID: 0}

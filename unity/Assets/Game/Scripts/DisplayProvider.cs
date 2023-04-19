@@ -5,9 +5,11 @@ using UnityEngine.XR.ARFoundation;
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace WorldAsSupport {
-    public class DisplayProvider : MonoBehaviour {
-         // singleton instance
+namespace WorldAsSupport
+{
+    public class DisplayProvider : MonoBehaviour
+    {
+        // singleton instance
         public static DisplayProvider current;
 
         private Camera m_mainCamera;
@@ -16,58 +18,68 @@ namespace WorldAsSupport {
         private Display m_secondaryDisplay;
 
         public Material PlaceableOcclusionMaterial;
-    
-    #if UNITY_IOS && !UNITY_EDITOR
+
+#if UNITY_IOS && !UNITY_EDITOR
         private ARCameraManager m_cameraManager;
-    #endif
+#endif
 
         private int m_secondaryCullingMask;
         private Color m_secondaryBackgroundColor;
 
         private bool m_secondaryDisplayActive;
-        public bool SecondaryDisplayActive {
-            get {
+        public bool SecondaryDisplayActive
+        {
+            get
+            {
                 return m_secondaryDisplayActive;
             }
         }
 
         private bool m_virtualProjectorActive = false;
-        public bool VirtualProjectorActive {
-            get {
+        public bool VirtualProjectorActive
+        {
+            get
+            {
                 return m_virtualProjectorActive;
             }
         }
 
         private bool m_secondaryDisplayReady = false;
-        public bool SecondaryDisplayReady {
-            get {
+        public bool SecondaryDisplayReady
+        {
+            get
+            {
                 return m_secondaryDisplayReady;
             }
         }
 
-        public DisplayProvider() {
-            if (current != null) {
+        public DisplayProvider()
+        {
+            if (current != null)
+            {
                 return;
             }
             current = this;
         }
 
-        void Awake() {
-        #if UNITY_EDITOR || !UNITY_IOS
+        void Awake()
+        {
+#if UNITY_EDITOR || !UNITY_IOS
             this.enabled = false;
-        #else
+#else
             this.enabled = true;
-        #endif
+#endif
         }
 
-        void Start() {
+        void Start()
+        {
             m_mainDisplay = Display.displays[0];
             m_mainCamera = ARGameSession.current.ARCamera;
             m_secondaryCamera = ARGameSession.current.ProjectorCamera;
-        
-        #if UNITY_IOS && !UNITY_EDITOR
+
+#if UNITY_IOS && !UNITY_EDITOR
             m_cameraManager = m_mainCamera.gameObject.GetComponent<ARCameraManager>();
-        #endif
+#endif
 
             m_secondaryCullingMask = m_secondaryCamera.cullingMask;
             m_secondaryBackgroundColor = m_secondaryCamera.backgroundColor;
@@ -78,22 +90,22 @@ namespace WorldAsSupport {
 
             // assign main camera to main display
             m_mainCamera.SetTargetBuffers(
-                m_mainDisplay.colorBuffer, 
+                m_mainDisplay.colorBuffer,
                 m_mainDisplay.depthBuffer
             );
-            
+
             // handle events
             Display.onDisplaysUpdated += m_OnDisplaysUpdated;
 
-        #if UNITY_IOS && !UNITY_EDITOR
+#if UNITY_IOS && !UNITY_EDITOR
             m_cameraManager.frameReceived += OnFrameReceived;
-        #endif
+#endif
 
             // check for multiple displays on app start
             m_OnDisplaysUpdated();
         }
 
-    #if UNITY_IOS && !UNITY_EDITOR
+#if UNITY_IOS && !UNITY_EDITOR
         private void OnFrameReceived(ARCameraFrameEventArgs eventArgs) {
             // ARCameraBackground sets the camera's projectionMatrix to the ARCameraFrame
             // projection matrix. This breaks the CanvasScaler's ability to resize when in
@@ -107,11 +119,13 @@ namespace WorldAsSupport {
                 m_mainCamera.projectionMatrix = matrix;
             }
         }
-    #endif
+#endif
 
-        private void m_OnDisplaysUpdated() {
+        private void m_OnDisplaysUpdated()
+        {
             Debug.Log("DisplayProvider.OnDisplaysUpdated: " + Display.displays.Length + " displays");
-            if (Display.displays.Length > 1) {
+            if (Display.displays.Length > 1)
+            {
                 m_secondaryDisplay = Display.displays[1];
                 m_secondaryDisplay.Activate();
                 m_secondaryCamera.SetTargetBuffers(
@@ -119,83 +133,105 @@ namespace WorldAsSupport {
                     m_secondaryDisplay.depthBuffer
                 );
                 m_secondaryDisplayReady = true;
-            } else {
+            }
+            else
+            {
                 m_secondaryDisplay = null;
                 m_secondaryDisplayReady = false;
             }
         }
 
-        public void SetSecondaryDisplayActive(bool active) {
-            if (!SecondaryDisplayReady) {
+        public void SetSecondaryDisplayActive(bool active)
+        {
+            if (!SecondaryDisplayReady)
+            {
                 return;
             }
-            if (!active) {
+            if (!active)
+            {
                 m_secondaryCamera.backgroundColor = Color.black;
                 m_secondaryCamera.cullingMask = 0;
                 ARGameSession.current.TargetCanvas.GetComponent<Canvas>().worldCamera = ARGameSession.current.ARCamera;
-            } else {
+            }
+            else
+            {
                 m_secondaryCamera.enabled = true;
                 m_secondaryCamera.backgroundColor = m_secondaryBackgroundColor;
                 m_secondaryCamera.cullingMask = m_secondaryCullingMask;
                 ARGameSession.current.TargetCanvas.GetComponent<Canvas>().worldCamera = ARGameSession.current.ProjectorCamera;
             }
             SetCullingMasksForPrimaryDisplay(active);
-            if (ARGameSession.current.WorldDoc != null) {
+            if (ARGameSession.current.WorldDoc != null)
+            {
                 SetPlaceableOcclusionMaterial(active);
             }
             m_secondaryDisplayActive = active;
         }
 
-        public void SetCullingMasksForPrimaryDisplay(bool projectorIsActive) {
+        public void SetCullingMasksForPrimaryDisplay(bool projectorIsActive)
+        {
             Camera camera = ARGameSession.current.ARCamera;
-            if (!projectorIsActive) {
+            if (!projectorIsActive)
+            {
                 camera.cullingMask |= 1 << LayerMask.NameToLayer("Placeables");
                 camera.cullingMask |= 1 << LayerMask.NameToLayer("Interacting");
                 camera.cullingMask |= 1 << LayerMask.NameToLayer("Guide");
                 camera.cullingMask |= 1 << LayerMask.NameToLayer("PlaceableOcclusion");
                 camera.cullingMask |= 1 << LayerMask.NameToLayer("TransparentFX");
-             } else {
-                camera.cullingMask &=  ~(1 << LayerMask.NameToLayer("Placeables"));
-                camera.cullingMask &=  ~(1 << LayerMask.NameToLayer("Interacting"));
-                camera.cullingMask &=  ~(1 << LayerMask.NameToLayer("Guide"));
-                camera.cullingMask &=  ~(1 << LayerMask.NameToLayer("PlaceableOcclusion"));
-                camera.cullingMask &=  ~(1 << LayerMask.NameToLayer("TransparentFX"));
-             }
+            }
+            else
+            {
+                camera.cullingMask &= ~(1 << LayerMask.NameToLayer("Placeables"));
+                camera.cullingMask &= ~(1 << LayerMask.NameToLayer("Interacting"));
+                camera.cullingMask &= ~(1 << LayerMask.NameToLayer("Guide"));
+                camera.cullingMask &= ~(1 << LayerMask.NameToLayer("PlaceableOcclusion"));
+                camera.cullingMask &= ~(1 << LayerMask.NameToLayer("TransparentFX"));
+            }
         }
 
         private Dictionary<int, Material> m_occlusionLayerDictionary = new Dictionary<int, Material>();
-        public void SetPlaceableOcclusionMaterial(bool projectorIsActive) {
+        public void SetPlaceableOcclusionMaterial(bool projectorIsActive)
+        {
             GameObject[] gameObjects = Utilities.FindGameObjectsInLayer("PlaceableOcclusion");
-            foreach (GameObject go in gameObjects) {
+            foreach (GameObject go in gameObjects)
+            {
                 Renderer renderer = go.GetComponent<Renderer>();
-                if (renderer) {
-                    if (projectorIsActive) {
+                if (renderer)
+                {
+                    if (projectorIsActive)
+                    {
                         m_occlusionLayerDictionary[go.GetInstanceID()] = renderer.material;
                         renderer.material = PlaceableOcclusionMaterial;
-                    } else if (m_occlusionLayerDictionary.ContainsKey(go.GetInstanceID())) {
+                    }
+                    else if (m_occlusionLayerDictionary.ContainsKey(go.GetInstanceID()))
+                    {
                         renderer.material = m_occlusionLayerDictionary[go.GetInstanceID()];
                     }
                 }
             }
         }
 
-        public void SetVirtualProjectorActive(bool active) {
+        public void SetVirtualProjectorActive(bool active)
+        {
             Debug.Log("SetVirtualProjectorActive: " + active);
             Camera camera = ARGameSession.current.ARCamera;
             Camera projectorCamera = ARGameSession.current.ProjectorCamera;
             RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
-            
-            if (!active) {
+
+            if (!active)
+            {
                 RenderSettings.ambientLight = Color.gray;
 
                 camera.fieldOfView = 60;
                 projectorCamera.fieldOfView = ARGameSession.current.ARProjectorFOV;
                 ARGameSession.current.ProjectorViewCamera.fieldOfView = projectorCamera.fieldOfView;
                 projectorCamera.backgroundColor = ARGameSession.current.ARFlashlightColor;
-                
+
                 ARGameSession.current.TargetCanvas.GetComponent<Canvas>().worldCamera = ARGameSession.current.ARCamera;
-            
-            } else {
+
+            }
+            else
+            {
                 RenderSettings.ambientLight = Color.black;
 
                 camera.fieldOfView = 80;
@@ -208,7 +244,8 @@ namespace WorldAsSupport {
             }
 
             SetCullingMasksForPrimaryDisplay(active);
-            if (ARGameSession.current.WorldDoc != null) {
+            if (ARGameSession.current.WorldDoc != null)
+            {
                 SetPlaceableOcclusionMaterial(active);
             }
 

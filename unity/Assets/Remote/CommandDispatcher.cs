@@ -1,7 +1,6 @@
 using System;
 using System.Text;
 using UnityEngine;
-using System.Collections.Generic;
 using WorldAsSupport.WorldAPI;
 
 namespace WorldAsSupport.Remote
