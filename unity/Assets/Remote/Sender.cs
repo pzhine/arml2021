@@ -111,7 +111,7 @@ namespace WorldAsSupport.Remote
                 Dictionary<object, object> metadata = new Dictionary<object, object>() {
           { "commandData", JsonUtility.ToJson(commandData) }
         };
-                m_TcpClient.SendAndWait(10000, data, metadata);
+                m_TcpClient.SendAndWait(20000, data, metadata);
                 this.RaiseStatusUpdate("Command sent: " + commandData.type);
             }
             catch (Exception ex)
